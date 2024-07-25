@@ -37,7 +37,7 @@ updated_time=$(date -u +"%b %d, %Y, %I:%M %p (UTC)")
 # Create the blocklist.txt in the required JSON format
 {
   echo '{'
-  echo '  "name": "Adobe Telemetry Blocklist",'
+  echo '  "name": "Adobe Blocklist",'
   echo '  "description": "==================================\\n                  Adobe Telemetry Blocklist\\n---------------------------------------------\\nEntries:         '"$entry_count"'\\nUpdated:      '"$updated_time"'\\nSize:             '"$file_size"'\\nMaintainer:   Cantue\\nExpires:        1 day (update frequency)\\nLicense:       GPL-3.0\\n==================================",'
   echo '  "denied-remote-domains": ['
   while read -r domain; do

@@ -2,7 +2,7 @@ name: Check and Update Blocklist
 
 on:
   schedule:
-    - cron: '0 * * * *' # Runs every hour
+    - cron: '30 2 * * *' # Runs every day at 2:30 AM
   workflow_dispatch:
 
 jobs:

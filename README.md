@@ -13,7 +13,7 @@ To use this blocklist with Little Snitch:
 
 1. Subscribe to the rule group:
    ```
-   x-littlesnitch:subscribe-rules?url=https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/blocklist.txt
+   x-littlesnitch:subscribe-rules?url=https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/data/blocklist.txt
    ```
 
 2. Little Snitch will automatically update the rules from this URL.
