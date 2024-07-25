@@ -25,13 +25,6 @@ jobs:
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
 
-      - name: Schedule random time for next run
-        run: |
-          chmod +x scripts/schedule_random_time.sh
-          ./scripts/schedule_random_time.sh
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-
       - name: Commit and push changes
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
