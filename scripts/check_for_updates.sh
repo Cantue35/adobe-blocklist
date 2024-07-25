@@ -51,9 +51,9 @@ updated_time=$(date -u +"%b %d, %Y, %I:%M %p (UTC)")
 sed -i '$s/,$//' data/blocklist.txt
 
 # Commit and push changes
-git config --global user.name 'github-actions'
+git config --global user.name 'cyber-bot'
 git config --global user.email 'github-actions@users.noreply.github.com'
 commit_message="Updated blocklist ($(date -u +"%Y-%m-%d %H:%M UTC"))"
 git add data/blocklist.txt data/urls.txt previous_commit_date.txt
 git commit -m "$commit_message"
-git push
+git push https://x-access-token:$PAT_TOKEN@github.com/Cantue35/adobe-blocklist.git

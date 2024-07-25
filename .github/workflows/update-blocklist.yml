@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Install jq
         run: sudo apt-get install -y jq
@@ -21,18 +23,18 @@ jobs:
           chmod +x scripts/check_for_updates.sh
           ./scripts/check_for_updates.sh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: Schedule random time for next run
         run: |
           chmod +x scripts/schedule_random_time.sh
           ./scripts/schedule_random_time.sh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: Commit and push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config --global user.name "cyber-bot"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
