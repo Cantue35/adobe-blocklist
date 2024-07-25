@@ -23,12 +23,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit and push changes
+      - name: Schedule random time for next run
         run: |
-          git config --global user.name "cyberbot"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Updated blocklist (scheduled update)"
-          git push
+          chmod +x scripts/schedule_random_time.sh
+          ./scripts/schedule_random_time.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git config --global user.name "cyber-bot"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/Cantue35/adobe-blocklist.git
+          git add .
+          git commit -m "Updated blocklist (scheduled update)"
+          git push origin main
