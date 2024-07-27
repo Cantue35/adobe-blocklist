@@ -2,7 +2,7 @@
 
 This repository provides a blocklist for Adobe domains formatted for use with Little Snitch. The blocklist is automatically updated and sourced from various projects.
 
-## Source and Licensing Information
+## Sources
 
 - **Source 1**: [ignaciocastro/a-dove-is-dumb](https://github.com/ignaciocastro/a-dove-is-dumb)
 (sources will be expanded in the future)
@@ -11,10 +11,9 @@ This repository provides a blocklist for Adobe domains formatted for use with Li
 
 To use this blocklist with Little Snitch:
 
-1. Subscribe to the rule group:
-   ```
-   x-littlesnitch:subscribe-rules?url=https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/data/blocklist.txt
-   ```
+1. Subscribe to the rule group by clicking the button below:
+
+   [![Subscribe](https://img.shields.io/badge/Subscribe-Adobe%20Blocklist-blue)](x-littlesnitch:subscribe-rules?url=https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/blocklist.txt)
 
 2. Little Snitch will automatically update the rules from this URL.
 

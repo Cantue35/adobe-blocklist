@@ -1,8 +1,8 @@
-name: Check and Update Blocklist
+name: Update Blocklist
 
 on:
-  schedule:
-    - cron: '30 2 * * *' # Runs every day at 2:30 AM
+  repository_dispatch:
+    types: [update_blocklist]
   workflow_dispatch:
 
 jobs:
