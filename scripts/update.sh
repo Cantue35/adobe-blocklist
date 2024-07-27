@@ -49,28 +49,31 @@ license_line=$(printf "%-${label_width}s%-${value_width}s" "License:" "GPL-3.0")
 description=$(printf "==================================\n%s\n---------------------------------------------\n%s\n%s\n%s\n%s\n%s\n%s\n==================================" \
 "$centered_title" "$entries_line" "$updated_line" "$size_line" "$maintainer_line" "$expires_line" "$license_line")
 
-# Ensure the denied-remote-domains array is properly formatted
-domains=$(jq -R . < $URLS_FILE | jq -s .)
-
 # Create the blocklist.txt in the required JSON format
-jq -n --arg name "Adobe Blocklist" --arg description "$description" --argjson domains "$domains" '{
-    "name": $name,
-    "description": $description,
+jq -n --arg name "Adobe Blocklist" --arg description "$description" --argjson domains "$(jq -R . < $URLS_FILE | jq -s .)" '{
+    name: $name,
+    description: $description,
     "denied-remote-domains": $domains
-}' | sed 's/},/}, /g' | sed '$s/]/,]/' > $BLOCKLIST_FILE # Appearantly the last entry should end with , for little snitch
+}' > $BLOCKLIST_FILE
 
-# Format JSON with proper indentation
-jq . $BLOCKLIST_FILE > tmp.$$.json && mv tmp.$$.json $BLOCKLIST_FILE
+# Remove the closing bracket and brace
+sed -i '$ d' $BLOCKLIST_FILE
+sed -i '$ d' $BLOCKLIST_FILE
+
+# Append a comma to the last element and add the closing lines
+sed -i '$s/$/,/' $BLOCKLIST_FILE
+echo "  ]" >> $BLOCKLIST_FILE
+echo "}" >> $BLOCKLIST_FILE
 
 # Commit and push changes if there are any
 git config --global user.name 'cyber-bot'
 git config --global user.email 'github-actions@users.noreply.github.com'
 
 if [ -n "$(git status --porcelain)" ]; then
-  git add $BLOCKLIST_FILE $URLS_FILE
-  commit_message="Updated blocklist ($(date -u +"%Y-%m-%d %H:%M UTC"))"
-  git commit -m "$commit_message"
-  git push $REPO_URL
+    git add $BLOCKLIST_FILE $URLS_FILE
+    commit_message="Updated blocklist ($(date -u +"%Y-%m-%d %H:%M UTC"))"
+    git commit -m "$commit_message"
+    git push $REPO_URL
 else
-  echo "No changes to commit"
+    echo "No changes to commit"
 fi
