@@ -11,9 +11,11 @@ This repository provides a blocklist for Adobe domains formatted for use with Li
 
 To use this blocklist with Little Snitch:
 
-1. Subscribe to the rule group by clicking the hyperlink below:
+1. Subscribe to the rule group by copying and pasting the URL below into your browser:
 
-   [Subscribe to Adobe Blocklist](x-littlesnitch:subscribe-rules?url=https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/blocklist.txt)
+   ```
+   x-littlesnitch:subscribe-rules?url=https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/blocklist.txt
+   ```
 
 2. Little Snitch will automatically update the rules from this URL.
 
