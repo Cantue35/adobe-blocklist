@@ -46,19 +46,8 @@ expires_line=$(printf "%-${label_width}s%-${value_width}s" "Expires:" "1 day (up
 license_line=$(printf "%-${label_width}s%-${value_width}s" "License:" "GPL-3.0")
 
 # Create the description with proper alignment using a here-document
-description=$(cat <<EOF
-    ==================================
-    $centered_title
-    ---------------------------------------------
-    $entries_line
-    $updated_line
-    $size_line
-    $maintainer_line
-    $expires_line
-    $license_line
-    ==================================
-EOF
-)
+description=$(printf "==================================\n%s\n---------------------------------------------\n%s\n%s\n%s\n%s\n%s\n%s\n==================================" \
+"$centered_title" "$entries_line" "$updated_line" "$size_line" "$maintainer_line" "$expires_line" "$license_line")
 
 # Create the blocklist.txt in the required JSON format
 jq -n --arg name "Adobe Blocklist" --arg description "$description" --argjson domains "$(jq -R . < $URLS_FILE | jq -s .)" '{
@@ -66,9 +55,6 @@ jq -n --arg name "Adobe Blocklist" --arg description "$description" --argjson do
   description: $description,
   "denied-remote-domains": $domains
 }' > $BLOCKLIST_FILE
-
-# Replace escaped newline characters with actual newlines
-sed -i 's/\\n/\n/g' $BLOCKLIST_FILE
 
 # Commit and push changes
 git config --global user.name 'cyber-bot'
