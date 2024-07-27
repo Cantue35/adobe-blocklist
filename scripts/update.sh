@@ -62,10 +62,15 @@ jq -n --arg name "Adobe Blocklist" --arg description "$description" --argjson do
 # Format JSON with proper indentation
 jq . $BLOCKLIST_FILE > tmp.$$.json && mv tmp.$$.json $BLOCKLIST_FILE
 
-# Commit and push changes
+# Commit and push changes if there are any
 git config --global user.name 'cyber-bot'
 git config --global user.email 'github-actions@users.noreply.github.com'
-commit_message="Updated blocklist ($(date -u +"%Y-%m-%d %H:%M UTC"))"
-git add $BLOCKLIST_FILE $URLS_FILE
-git commit -m "$commit_message"
-git push $REPO_URL
+
+if [ -n "$(git status --porcelain)" ]; then
+  git add $BLOCKLIST_FILE $URLS_FILE
+  commit_message="Updated blocklist ($(date -u +"%Y-%m-%d %H:%M UTC"))"
+  git commit -m "$commit_message"
+  git push $REPO_URL
+else
+  echo "No changes to commit"
+fi

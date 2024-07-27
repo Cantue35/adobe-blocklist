@@ -566,6 +566,6 @@
     "zrbzvc9mel.adobestats.io",
     "ztxgqqizv7.adobestats.io",
     "zu8yy3jkaz.adobestats.io",
-    "zz8r2o83on.adobestats.io"
+    "zz8r2o83on.adobestats.io",
   ]
 }
