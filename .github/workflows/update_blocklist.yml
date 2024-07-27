@@ -20,8 +20,8 @@ jobs:
 
       - name: Run update script
         run: |
-          chmod +x scripts/check_for_updates.sh
-          ./scripts/check_for_updates.sh
+          chmod +x scripts/update.sh
+          ./scripts/update.sh
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
 
