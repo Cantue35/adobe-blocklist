@@ -47,16 +47,16 @@ license_line=$(printf "%-${label_width}s%-${value_width}s" "License:" "GPL-3.0")
 
 # Create the description with proper alignment using a here-document
 description=$(cat <<EOF
-  ==================================
-  $centered_title
-  ---------------------------------------------
-  $entries_line
-  $updated_line
-  $size_line
-  $maintainer_line
-  $expires_line
-  $license_line
-  ==================================
+    ==================================
+    $centered_title
+    ---------------------------------------------
+    $entries_line
+    $updated_line
+    $size_line
+    $maintainer_line
+    $expires_line
+    $license_line
+    ==================================
 EOF
 )
 
