@@ -4,16 +4,16 @@ set -e
 
 # Define constants
 PIHOLE_URL="https://raw.githubusercontent.com/ignaciocastro/a-dove-is-dumb/main/pihole.txt"
-PIHOLE_FILE="pihole.txt"
-URLS_FILE="urls.txt"
+URLS_FILE="data/urls.txt"
 BLOCKLIST_FILE="blocklist.txt"
 REPO_URL="https://x-access-token:$PAT_TOKEN@github.com/Cantue35/adobe-blocklist.git"
 
-# Fetch the latest pihole.txt from a-dove-is-dumb
-curl -o $PIHOLE_FILE $PIHOLE_URL
+# Create data directory if it doesn't exist
+mkdir -p data
 
-# Process the blocklist: remove comments, reverse domain components, sort, and reverse back
-grep -v '^#' $PIHOLE_FILE | \
+# Fetch the latest pihole.txt directly from a-dove-is-dumb and process it
+curl -s $PIHOLE_URL | \
+grep -v '^#' | \
 awk -F. '{OFS="."; for(i=NF; i>0; i--) printf("%s%s", $i, (i>1?OFS:ORS))}' | \
 sort | \
 awk -F. '{OFS="."; for(i=NF; i>0; i--) printf("%s%s", $i, (i>1?OFS:ORS))}' > $URLS_FILE
@@ -47,16 +47,16 @@ license_line=$(printf "%-${label_width}s%-${value_width}s" "License:" "GPL-3.0")
 
 # Create the description with proper alignment using a here-document
 description=$(cat <<EOF
-==================================
-$centered_title
----------------------------------------------
-$entries_line
-$updated_line
-$size_line
-$maintainer_line
-$expires_line
-$license_line
-==================================
+  ==================================
+  $centered_title
+  ---------------------------------------------
+  $entries_line
+  $updated_line
+  $size_line
+  $maintainer_line
+  $expires_line
+  $license_line
+  ==================================
 EOF
 )
 
