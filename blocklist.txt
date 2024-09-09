@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       805                                \nUpdated:       Sep 08, 2024, 04:03 PM (UTC)       \nSize:          20K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       807                                \nUpdated:       Sep 09, 2024, 06:27 PM (UTC)       \nSize:          20K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "prod.adobegenuine.com",
     "gocart-web-prod-ue1-alb-1461435473.us-east-1.elb.amazonaws.com",
@@ -344,6 +344,7 @@
     "bqbvmlmtmo.adobestats.io",
     "bs2yhuojzm.adobestats.io",
     "bvcj3prq1u.adobestats.io",
+    "c0acub5mul.adobestats.io",
     "c0cczlv877.adobestats.io",
     "c474kdh1ky.adobestats.io",
     "c4dpyxapo7.adobestats.io",
@@ -785,6 +786,7 @@
     "yvbzqwn2gz.adobestats.io",
     "ywwlnskz2q.adobestats.io",
     "yykww43js1.adobestats.io",
+    "z06nr7yct1.adobestats.io",
     "z2cez9qgcl.adobestats.io",
     "z2yohmd1jm.adobestats.io",
     "z3shmocdp4.adobestats.io",
