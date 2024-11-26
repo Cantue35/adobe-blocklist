@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1057                               \nUpdated:       Nov 26, 2024, 11:15 AM (UTC)       \nSize:          28K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1060                               \nUpdated:       Nov 26, 2024, 06:27 PM (UTC)       \nSize:          28K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "prod.adobegenuine.com",
     "gocart-web-prod-ue1-alb-1461435473.us-east-1.elb.amazonaws.com",
@@ -139,6 +139,7 @@
     "1i09xck9hj.adobestats.io",
     "1j3muid89l.adobestats.io",
     "1k7hno3xrp.adobestats.io",
+    "1kez8509ag.adobestats.io",
     "1mqvqabmi0.adobestats.io",
     "1ngcws40i2.adobestats.io",
     "1o54s13pxf.adobestats.io",
@@ -635,6 +636,7 @@
     "j7d199wwp8.adobestats.io",
     "j7wq25n7dy.adobestats.io",
     "j8iepl91av.adobestats.io",
+    "ja7czxetms.adobestats.io",
     "jaircqa037.adobestats.io",
     "jatil41mhk.adobestats.io",
     "je5ufnklzs.adobestats.io",
@@ -987,6 +989,7 @@
     "xeh65lseqp.adobestats.io",
     "xesnl0ss94.adobestats.io",
     "xgj8lmrcy6.adobestats.io",
+    "xldcvdx24q.adobestats.io",
     "xljz63k33x.adobestats.io",
     "xm0yibvxj5.adobestats.io",
     "xm8abqacqz.adobestats.io",
