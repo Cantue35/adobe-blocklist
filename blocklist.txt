@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1703                               \nUpdated:       Apr 01, 2025, 01:39 AM (UTC)       \nSize:          44K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1705                               \nUpdated:       Apr 01, 2025, 04:03 AM (UTC)       \nSize:          44K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "0mo5a70cqa.adobe.io",
     "0ojupfm51u.adobe.io",
@@ -811,6 +811,7 @@
     "2xsqhhzk.g51h4.adobestats.io",
     "aw1dscfw7qt.g51h4.adobestats.io",
     "lu8efo180j.g51h4.adobestats.io",
+    "mfzph1raux.g51h4.adobestats.io",
     "p19x7ltcv06.g51h4.adobestats.io",
     "rogn2peyhk3t.g51h4.adobestats.io",
     "tggdsmm59.g51h4.adobestats.io",
@@ -1399,6 +1400,7 @@
     "6t12zyxk5zbq.vf1av.adobestats.io",
     "953702nx.vf1av.adobestats.io",
     "99mfvo7plse.vf1av.adobestats.io",
+    "adu7qqk4xl.vf1av.adobestats.io",
     "ctpc178u.vf1av.adobestats.io",
     "embriovus.vf1av.adobestats.io",
     "iv9e06kq.vf1av.adobestats.io",
