@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1771                               \nUpdated:       Apr 03, 2025, 06:27 AM (UTC)       \nSize:          48K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1773                               \nUpdated:       Apr 03, 2025, 08:51 AM (UTC)       \nSize:          48K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "0mo5a70cqa.adobe.io",
     "0ojupfm51u.adobe.io",
@@ -845,6 +845,7 @@
     "g51h4.adobestats.io",
     "2xsqhhzk.g51h4.adobestats.io",
     "aw1dscfw7qt.g51h4.adobestats.io",
+    "bjz0559qyw.g51h4.adobestats.io",
     "lu8efo180j.g51h4.adobestats.io",
     "mfzph1raux.g51h4.adobestats.io",
     "p19x7ltcv06.g51h4.adobestats.io",
@@ -1589,6 +1590,7 @@
     "xu2ws3lrz4.adobestats.io",
     "xuk3z0wfkn.adobestats.io",
     "xuxjkyr3v9.adobestats.io",
+    "3ya9bljnth.xwk4b.adobestats.io",
     "9glwucpy.xwk4b.adobestats.io",
     "bjvux5rqmo.xwk4b.adobestats.io",
     "gcffnafpk3w.xwk4b.adobestats.io",
