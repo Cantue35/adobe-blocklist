@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1781                               \nUpdated:       Apr 04, 2025, 11:15 AM (UTC)       \nSize:          48K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1782                               \nUpdated:       Apr 04, 2025, 01:39 PM (UTC)       \nSize:          48K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "0mo5a70cqa.adobe.io",
     "0ojupfm51u.adobe.io",
@@ -160,6 +160,7 @@
     "39rf5jqkp.2cmyg.adobestats.io",
     "ffui2zn0a1.2cmyg.adobestats.io",
     "g0xwjif8aj.2cmyg.adobestats.io",
+    "hzmszd0swj.2cmyg.adobestats.io",
     "lprbx6oz8f.2cmyg.adobestats.io",
     "ni7aj3kn7p.2cmyg.adobestats.io",
     "pjkqaxrgt.2cmyg.adobestats.io",
