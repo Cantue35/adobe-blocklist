@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1791                               \nUpdated:       Apr 06, 2025, 01:39 AM (UTC)       \nSize:          48K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1793                               \nUpdated:       Apr 06, 2025, 04:03 AM (UTC)       \nSize:          48K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "0mo5a70cqa.adobe.io",
     "0ojupfm51u.adobe.io",
@@ -1480,6 +1480,7 @@
     "953702nx.vf1av.adobestats.io",
     "99mfvo7plse.vf1av.adobestats.io",
     "adu7qqk4xl.vf1av.adobestats.io",
+    "b2mnuxdesfqe.vf1av.adobestats.io",
     "ctpc178u.vf1av.adobestats.io",
     "embriovus.vf1av.adobestats.io",
     "iv9e06kq.vf1av.adobestats.io",
@@ -1767,6 +1768,7 @@
     "ye60h3ynxmpb.bmysp.hstatic.io",
     "zag4l4vb.bmysp.hstatic.io",
     "7b4jms3jyg5.lpst4.hstatic.io",
+    "b7fiblipjdis.lpst4.hstatic.io",
     "0awf2sau04.pycz4.hstatic.io",
     "0kq3h19bl6.pycz4.hstatic.io",
     "a6v3cgt7m1hr.pycz4.hstatic.io",
