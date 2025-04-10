@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1848                               \nUpdated:       Apr 10, 2025, 06:27 AM (UTC)       \nSize:          48K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1851                               \nUpdated:       Apr 10, 2025, 08:51 AM (UTC)       \nSize:          48K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "0mo5a70cqa.adobe.io",
     "0ojupfm51u.adobe.io",
@@ -1058,6 +1058,7 @@
     "jh34ro8dm2.adobestats.io",
     "jiegg.adobestats.io",
     "2ppcypovj4cz.jiegg.adobestats.io",
+    "bjmidsgqgni.jiegg.adobestats.io",
     "csbv68eh.jiegg.adobestats.io",
     "lu0q6ggnr1br.jiegg.adobestats.io",
     "q5adb0th8o.jiegg.adobestats.io",
@@ -1236,6 +1237,7 @@
     "nq7twhf283.adobestats.io",
     "nqnnfmo9od.adobestats.io",
     "nr94p.adobestats.io",
+    "9cfmpnwegb3.nr94p.adobestats.io",
     "cf53cq5fcbax.nr94p.adobestats.io",
     "emaga52a.nr94p.adobestats.io",
     "n0wns2jog.nr94p.adobestats.io",
@@ -1660,6 +1662,7 @@
     "xuk3z0wfkn.adobestats.io",
     "xuxjkyr3v9.adobestats.io",
     "3ya9bljnth.xwk4b.adobestats.io",
+    "6sgi9p89v9k.xwk4b.adobestats.io",
     "8kbj8x2r.xwk4b.adobestats.io",
     "9glwucpy.xwk4b.adobestats.io",
     "bjvux5rqmo.xwk4b.adobestats.io",
