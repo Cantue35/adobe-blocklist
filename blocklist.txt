@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1985                               \nUpdated:       Apr 18, 2025, 01:39 PM (UTC)       \nSize:          52K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1988                               \nUpdated:       Apr 18, 2025, 04:03 PM (UTC)       \nSize:          52K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "0mo5a70cqa.adobe.io",
     "0ojupfm51u.adobe.io",
@@ -31,6 +31,7 @@
     "b5kbg2ggog.adobe.io",
     "bo3u7sbfvf.adobe.io",
     "cc-api-data.adobe.io",
+    "cchome.adobe.io",
     "cd536oo20y.adobe.io",
     "chlydkc9bz.adobe.io",
     "dbv2l6mlcr.adobe.io",
@@ -1295,6 +1296,7 @@
     "n1hg91312n.adobestats.io",
     "n5wo7.adobestats.io",
     "328agnmk8g.n5wo7.adobestats.io",
+    "5853mw2bm1b.n5wo7.adobestats.io",
     "cmi1l4log.n5wo7.adobestats.io",
     "g5o5m0sahp.n5wo7.adobestats.io",
     "r503fb908.n5wo7.adobestats.io",
@@ -1976,6 +1978,7 @@
     "opm6keep9kn.uvtmo.hstatic.io",
     "q2ripsnshpi2.uvtmo.hstatic.io",
     "vgmer1n6iytd.uvtmo.hstatic.io",
+    "95l6r1vwnh6.yise6.hstatic.io",
     "445fwrdw4ga.z4e0u.hstatic.io",
     "4jfur3ybg8yx.z4e0u.hstatic.io",
     "4q8hc1sx.z4e0u.hstatic.io",
