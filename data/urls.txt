@@ -50,6 +50,7 @@ ic.adobe.io
 ij0gdyrfka.adobe.io
 ivbnpthtl2.adobe.io
 jc95y2v12r.adobe.io
+lcs-cops.adobe.io
 lcs-robs.adobe.io
 lre1kgz2u4.adobe.io
 m59b4msyph.adobe.io
@@ -1801,6 +1802,7 @@ v92yghj6lvix.xwk4b.adobestats.io
 wf8575vik9j2.xwk4b.adobestats.io
 wxxukwhvlcp7.xwk4b.adobestats.io
 xb0epfdrt.xwk4b.adobestats.io
+ywqyqjnb.xwk4b.adobestats.io
 xwr6ju22ai.adobestats.io
 xxm64zrl75.adobestats.io
 xygpp0qk24.adobestats.io
