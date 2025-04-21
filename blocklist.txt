@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       1996                               \nUpdated:       Apr 21, 2025, 04:03 AM (UTC)       \nSize:          52K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       2000                               \nUpdated:       Apr 21, 2025, 06:27 AM (UTC)       \nSize:          52K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "0mo5a70cqa.adobe.io",
     "0ojupfm51u.adobe.io",
@@ -357,6 +357,8 @@
     "51htravd8ibt.4wbo1.adobestats.io",
     "6fzunso3v2l5.4wbo1.adobestats.io",
     "bp1rsio9.4wbo1.adobestats.io",
+    "esosrj2f.4wbo1.adobestats.io",
+    "esosrj2fi3.4wbo1.adobestats.io",
     "iasai9j8s1yl.4wbo1.adobestats.io",
     "j8lhoe7d.4wbo1.adobestats.io",
     "niav1ta97.4wbo1.adobestats.io",
@@ -1328,6 +1330,7 @@
     "iy6pqa09.nr94p.adobestats.io",
     "n0wns2jog.nr94p.adobestats.io",
     "nu9fp74l.nr94p.adobestats.io",
+    "t6i14nuy.nr94p.adobestats.io",
     "t6lwl0u05.nr94p.adobestats.io",
     "wzojo90k5.nr94p.adobestats.io",
     "ytlgjki5.nr94p.adobestats.io",
@@ -1794,6 +1797,7 @@
     "gcffnafpk3w.xwk4b.adobestats.io",
     "gsi2g8phn3wf.xwk4b.adobestats.io",
     "j3u2g8uh.xwk4b.adobestats.io",
+    "kmv2owqs.xwk4b.adobestats.io",
     "kmv2owqsof.xwk4b.adobestats.io",
     "oana1kuyw.xwk4b.adobestats.io",
     "otmcu1dhe6.xwk4b.adobestats.io",
