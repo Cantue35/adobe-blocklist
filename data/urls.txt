@@ -71,7 +71,6 @@ vgetwxoqno.adobe.io
 xo9j8bcw4a.adobe.io
 xw0b2nn72i.adobe.io
 zh9yrmh2lu.adobe.io
-adobestats.io
 017sxef5kv.adobestats.io
 02g46qsebh.adobestats.io
 04jkjo2db5.adobestats.io
@@ -986,6 +985,7 @@ h1sp8k6bhv.adobestats.io
 h1xtbu1sca.adobestats.io
 55hbesiqa.h2uqz.adobestats.io
 inh54ptni.h2uqz.adobestats.io
+jfmwcbfmf.h2uqz.adobestats.io
 nj444fqls5.h2uqz.adobestats.io
 sqfpk848.h2uqz.adobestats.io
 h33a7kps0t.adobestats.io
