@@ -1,6 +1,6 @@
 {
   "name": "Adobe Blocklist",
-  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       2083                               \nUpdated:       Apr 26, 2025, 04:03 PM (UTC)       \nSize:          56K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
+  "description": "==================================\n            Adobe Telemetry Blocklist             \n---------------------------------------------\nEntries:       2086                               \nUpdated:       Apr 27, 2025, 01:39 AM (UTC)       \nSize:          56K                                \nMaintainer:    Cantue                             \nExpires:       1 day (update frequency)           \nLicense:       GPL-3.0                            \n==================================",
   "denied-remote-domains": [
     "0mo5a70cqa.adobe.io",
     "0ojupfm51u.adobe.io",
@@ -165,6 +165,7 @@
     "ffui2zn0a1.2cmyg.adobestats.io",
     "g0xwjif8aj.2cmyg.adobestats.io",
     "hzmszd0swj.2cmyg.adobestats.io",
+    "kzq4r67awe9x.2cmyg.adobestats.io",
     "lprbx6oz8f.2cmyg.adobestats.io",
     "ni7aj3kn7p.2cmyg.adobestats.io",
     "pjkqaxrgt.2cmyg.adobestats.io",
@@ -434,6 +435,7 @@
     "84rrkwj8x.61y77.adobestats.io",
     "apsgfvd8zy.61y77.adobestats.io",
     "b4b7qcfhoaeg.61y77.adobestats.io",
+    "c6qck9ie0td.61y77.adobestats.io",
     "dwpelzctolx.61y77.adobestats.io",
     "dy0gaz6h.61y77.adobestats.io",
     "i1eada0b.61y77.adobestats.io",
@@ -443,6 +445,7 @@
     "kbz3vc0a.61y77.adobestats.io",
     "l0tgzvg9lml3.61y77.adobestats.io",
     "m97tqvlcgv.61y77.adobestats.io",
+    "mwg28dtpub4v.61y77.adobestats.io",
     "myd1zjxo6.61y77.adobestats.io",
     "nsssv8iv.61y77.adobestats.io",
     "q8a7c4z7te.61y77.adobestats.io",
