@@ -3,14 +3,14 @@ name: update_blocklist
 on:
   repository_dispatch:
     types: [update_blocklist]
-  workflow_dispatch:              # Manual trigger from UI / API
+  workflow_dispatch:              # Manual trigger
 
 permissions:
-  contents: write                 # Minimal required to push changes
+  contents: write                 # Needed to push changes
 
 concurrency:
   group: update-blocklist
-  cancel-in-progress: true        # Avoid overlapping runs
+  cancel-in-progress: true
 
 jobs:
   update-blocklist:
@@ -19,13 +19,13 @@ jobs:
     env:
       SOURCES_JSON: ${{ vars.SOURCES_JSON }}
       BLOCKLIST_NAME: "Adobe Telemetry Blocklist"
+      # (Optionally set MIN_META_WIDTH / MAX_META_WIDTH / MIN_VALUE_WIDTH here)
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Keep depth=1 for speed (if script needs full history then set 0)
-          fetch-depth: 1
+          fetch-depth: 1          # Fast; use 0 only if you later need full history
 
       - name: Show dispatch payload (if repository_dispatch)
         if: ${{ github.event_name == 'repository_dispatch' }}
@@ -49,17 +49,29 @@ jobs:
       - name: Summarize changed repos from payload (optional)
         if: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.changed_repos }}
         run: |
-            echo "Changed repositories from upstream:"
-            echo '${{ toJson(github.event.client_payload.changed_repos) }}' \
-              | jq -r '.[] | "\(.owner)/\(.repo)@\(.branch) newCommits=\(.newCommitCount) rewrite=\(.historyRewrite)"'
+          echo "Changed repositories from upstream:"
+          echo '${{ toJson(github.event.client_payload.changed_repos) }}' \
+            | jq -r '.[] | "\(.owner)/\(.repo)@\(.branch) newCommits=\(.newCommitCount) rewrite=\(.historyRewrite)"'
 
-      - name: Show metrics
-        if: ${{ always() }}
+      - name: Post-generation sanity
         run: |
-          if [[ -f data/metrics.json ]]; then
-            jq '{generated_at, total_domains, sources_count: (.sources | length)}' data/metrics.json
+          echo "=== Workspace root ==="
+          ls -al
+          echo "=== data/ ==="
+          ls -al data || true
+          echo "=== Git status (porcelain) ==="
+          git status --porcelain || true
+          if [[ -f blocklist.lsrules ]]; then
+            echo "First 12 lines of blocklist.lsrules:"
+            head -n 12 blocklist.lsrules
           else
-            echo "No metrics.json produced."
+            echo "blocklist.lsrules NOT FOUND (unexpected)"
+          fi
+          if [[ -f data/metrics.json ]]; then
+            echo "metrics.json summary:"
+            jq '{generated_at, total_domains, sources_count: (.sources | length)}' data/metrics.json || true
+          else
+            echo "metrics.json NOT FOUND (unexpected)"
           fi
 
       - name: Commit and push changes (if any)
@@ -69,20 +81,32 @@ jobs:
           GIT_AUTHOR_EMAIL: cyber-bot@users.noreply.github.com
         run: |
           set -euo pipefail
-          if git diff --quiet && git diff --cached --quiet; then
+
+          echo "=== Pre-add git status ==="
+          git status --short
+
+          # Detect *any* change (tracked or untracked)
+          if ! git status --porcelain | grep -q .; then
             echo "No changes to commit."
             exit 0
           fi
 
-          TOTAL=$(jq -r '.total_domains // empty' data/metrics.json || echo "")
-          HASH=$(sha256sum blocklist.lsrules | cut -c1-12 || echo "nohash")
+          # Stage everything (new / modified / deletions)
+          git add -A
+
+          echo "=== Post-add git status ==="
+          git status --short
 
           git config user.name  "$GIT_AUTHOR_NAME"
           git config user.email "$GIT_AUTHOR_EMAIL"
 
-          SUBJECT="chore(blocklist): update"
+          TOTAL=$(jq -r '.total_domains // empty' data/metrics.json 2>/dev/null || echo "")
+          HASH=$( (sha256sum blocklist.lsrules 2>/dev/null || echo "nohash  -") | awk '{print $1}' )
+
           if [[ -n "$TOTAL" ]]; then
             SUBJECT="chore(blocklist): update to ${TOTAL} domains"
+          else
+            SUBJECT="chore(blocklist): update blocklist"
           fi
 
           {
@@ -92,6 +116,11 @@ jobs:
             echo "SHA256(blocklist.lsrules)=$HASH"
           } > /tmp/commitmsg
 
-          git add blocklist.lsrules data/metrics.json || true
-          git commit -F /tmp/commitmsg || { echo "Nothing to commit."; exit 0; }
+          # If nothing actually staged (edge case), exit gracefully
+          if git diff --cached --quiet; then
+            echo "Nothing staged after add (unexpected)."
+            exit 0
+          fi
+
+          git commit -F /tmp/commitmsg || { echo "Commit skipped."; exit 0; }
           git push
