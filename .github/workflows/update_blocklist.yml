@@ -2,7 +2,7 @@ name: Update Blocklist
 
 on:
   repository_dispatch:
-    types: [update_blocklist]     # Triggered by Pipedream custom event
+    types: [update_blocklist]
   workflow_dispatch:              # Manual trigger from UI / API
 
 permissions:
@@ -16,6 +16,9 @@ jobs:
   update-blocklist:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      SOURCES_JSON: ${{ vars.SOURCES_JSON }}
+      BLOCKLIST_NAME: "Adobe Telemetry Blocklist"
 
     steps:
       - name: Checkout repository
@@ -31,39 +34,64 @@ jobs:
           echo '${{ toJson(github.event.client_payload) }}' > payload.json
           jq '.' payload.json || cat payload.json
 
-      # (jq comes preinstalled on ubuntu-latest runners; no install step required)
-
       - name: Run update script
         shell: bash
         run: |
           set -euo pipefail
+          if [[ -z "${SOURCES_JSON:-}" ]]; then
+            echo "ERROR: SOURCES_JSON env not set." >&2
+            exit 1
+          fi
+          echo "$SOURCES_JSON" | jq -e . >/dev/null
           chmod +x scripts/update.sh
           ./scripts/update.sh
 
       - name: Summarize changed repos from payload (optional)
         if: ${{ github.event_name == 'repository_dispatch' && github.event.client_payload.changed_repos }}
         run: |
-          echo "Changed repositories reported by upstream:"
-          echo '${{ toJson(github.event.client_payload.changed_repos) }}' \
-            | jq -r '.[] | "\(.owner)/\(.repo)@\(.branch) | new commits: \(.newCommitCount) | rewrite: \(.historyRewrite)"'
+            echo "Changed repositories from upstream:"
+            echo '${{ toJson(github.event.client_payload.changed_repos) }}' \
+              | jq -r '.[] | "\(.owner)/\(.repo)@\(.branch) newCommits=\(.newCommitCount) rewrite=\(.historyRewrite)"'
+
+      - name: Show metrics
+        if: ${{ always() }}
+        run: |
+          if [[ -f data/metrics.json ]]; then
+            jq '{generated_at, total_domains, sources_count: (.sources | length)}' data/metrics.json
+          else
+            echo "No metrics.json produced."
+          fi
 
       - name: Commit and push changes (if any)
         shell: bash
         env:
           GIT_AUTHOR_NAME: cyber-bot
           GIT_AUTHOR_EMAIL: cyber-bot@users.noreply.github.com
-          GIT_COMMITTER_NAME: cyber-bot
-          GIT_COMMITTER_EMAIL: cyber-bot@users.noreply.github.com
         run: |
           set -euo pipefail
-          # Stage & commit only when there are modifications
           if git diff --quiet && git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-          git add -A
-          TS="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          git config user.name  "${GIT_AUTHOR_NAME}"
-          git config user.email "${GIT_AUTHOR_EMAIL}"
-          git commit -m "Updated blocklist (${TS})"
+
+          TOTAL=$(jq -r '.total_domains // empty' data/metrics.json || echo "")
+          HASH=$(sha256sum blocklist.lsrules | cut -c1-12 || echo "nohash")
+
+          git config user.name  "$GIT_AUTHOR_NAME"
+          git config user.email "$GIT_AUTHOR_EMAIL"
+
+          SUBJECT="chore(blocklist): update"
+          if [[ -n "$TOTAL" ]]; then
+            SUBJECT="chore(blocklist): update to ${TOTAL} domains"
+          fi
+
+          {
+            echo "$SUBJECT"
+            echo
+            echo "Generated: $(date -u +'%Y-%m-%dT%H:%M:%SZ') UTC"
+            echo "SHA256(blocklist.lsrules)=$HASH"
+          } > /tmp/commitmsg
+
+          git add blocklist.lsrules data/metrics.json || true
+          git commit -F /tmp/commitmsg || { echo "Nothing to commit."; exit 0; }
           git push
