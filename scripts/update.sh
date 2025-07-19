@@ -54,37 +54,30 @@ is_changed() {
 
 ### Domain normalization & validation
 # Rules:
-#   - Lowercase all tokens (Just to make sure since domains are case insensitive; ensures uniform dedup)
-#   - Preserve any leading "*." (do NOT strip); only allow "*" as part of a leading wildcard label
-#   - Accept domains that optionally start with "*." then labels [a-z0-9-], no leading/trailing '-' per label
-#   - Exclude IP addresses
-#   - Enforce label length 1..63, total length <= 253
+#   - Lowercase tokens (domains case-insensitive) for consistent dedup
+#   - Preserve leading "*." wildcard
+#   - Basic RFC constraints (label length, chars)
 normalize_domains() {
   awk '
-    function tolower_ascii(s,  i,c,out) { # portable lowercase (LC_CTYPE safe)
+    function tolower_ascii(s,  i,c,out) {
       out=""
       for(i=1;i<=length(s);i++){
         c=substr(s,i,1)
-        if(c>= "A" && c<="Z"){ c=tolower(c) }
+        if(c>="A" && c<="Z"){ c=tolower(c) }
         out=out c
       }
       return out
     }
     function valid(d) {
       if (length(d) < 1 || length(d) > 253) return 0
-
-      # Allow optional leading "*." wildcard
       if (d ~ /^\*\./) {
         core = substr(d,3)
         if (core == "" || core ~ /^\./) return 0
       } else {
         core = d
       }
-
-      # Disallow illegal chars (after optional wildcard)
       if (core ~ /[^a-z0-9\.\-]/) return 0
       if (core ~ /^\./ || core ~ /\.$/) return 0
-
       n=split(core, L, ".")
       for(i=1;i<=n;i++){
         if(length(L[i])<1 || length(L[i])>63) return 0
@@ -99,12 +92,10 @@ normalize_domains() {
       gsub(/^[ \t]+|[ \t]+$/,"", line)
       if(line=="") next
 
-      # Hosts line? (IPv4 followed by one or more tokens)
       if(line ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+[ \t]+/){
         count = split(line, a, /[ \t]+/)
         for(i=2;i<=count;i++){
           d = tolower_ascii(a[i])
-          # Skip if token is another IP
           if(d ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/) continue
           if(valid(d)) print d
         }
@@ -118,7 +109,7 @@ normalize_domains() {
   '
 }
 
-# Metrics accumulator (JSON string)
+# Metrics accumulator
 METRICS_JSON='[]'
 
 process_source() {
@@ -179,47 +170,39 @@ if [[ ! -s "$ALL_DOMAINS_FILE" ]]; then
   jq -n --arg name "$NAME" --arg description "No changes at $UPDATED_HUMAN" \
       '{name:$name, description:$description, "denied-remote-domains":[]}' > "$TMP_OUTPUT"
 else
-  # Global dedup (already lowercase ensures case-insensitive uniqueness)
   sort -u "$ALL_DOMAINS_FILE" > "${ALL_DOMAINS_FILE}.dedup"
   mv "${ALL_DOMAINS_FILE}.dedup" "$ALL_DOMAINS_FILE"
   TOTAL=$(wc -l < "$ALL_DOMAINS_FILE" | tr -d ' ')
 
-  # Little Snitch (modern versions) domain list limit safety guard
   if [[ "$TOTAL" -gt 200000 ]]; then
     echo "ERROR: Total domains ($TOTAL) exceed 200000 limit." >&2
     exit 1
   fi
 
-  # --- Dynamic-width metadata block for Little Snitch UI ---
-
-  # Human-readable size of the *deduped* domain list file
+  # --- Dynamic robust metadata banner ---
   LIST_SIZE=$(du -h "$ALL_DOMAINS_FILE" | cut -f1)
-
-  # Labels and corresponding values
   LABELS=( "Entries" "Updated" "Size" "Maintainer" "Expires" "License" )
   VALUES=( "$TOTAL" "$UPDATED_HUMAN" "$LIST_SIZE" "$MAINTAINER" "$EXPIRES" "$LICENSE" )
 
-  # Compute longest label (with colon)
+  : "${MIN_META_WIDTH:=40}"
+  : "${MAX_META_WIDTH:=60}"
+  : "${MIN_VALUE_WIDTH:=20}"
+
   max_label_len=0
   for lbl in "${LABELS[@]}"; do
-    len=$(( ${#lbl} + 1 ))   # +1 for colon
-    (( len > max_label_len )) && max_label_len=$len
+    l=$(( ${#lbl} + 1 ))
+    (( l > max_label_len )) && max_label_len=$l
   done
-  # Label field + 1 space padding after colon
   label_width=$(( max_label_len + 1 ))
+  (( label_width < 1 )) && label_width=1
 
-  # Determine natural width needed
   natural_width=${#NAME}
   for i in "${!LABELS[@]}"; do
-    lbl="${LABELS[$i]}:"
     val="${VALUES[$i]}"
     line_len=$(( label_width + ${#val} ))
     (( line_len > natural_width )) && natural_width=$line_len
   done
 
-  # Clamp width between MIN and MAX (configurable)
-  MIN_META_WIDTH=40
-  MAX_META_WIDTH="${MAX_META_WIDTH:-60}"
   if (( natural_width < MIN_META_WIDTH )); then
     WIDTH=$MIN_META_WIDTH
   elif (( natural_width > MAX_META_WIDTH )); then
@@ -228,12 +211,41 @@ else
     WIDTH=$natural_width
   fi
 
-  # Helper to truncate values that exceed remaining space
+  min_allowed=$(( label_width + MIN_VALUE_WIDTH ))
+  if (( WIDTH < min_allowed )); then
+    WIDTH=$min_allowed
+  fi
+
   value_width=$(( WIDTH - label_width ))
+  if (( value_width < MIN_VALUE_WIDTH )); then
+    value_width=$MIN_VALUE_WIDTH
+    WIDTH=$(( label_width + value_width ))
+  fi
+
+  repeat_chars() {
+    local ch="$1" count="$2" out=""
+    while (( count > 0 )); do
+      out+="$ch"
+      ((count--))
+    done
+    printf "%s" "$out"
+  }
+
+  BORDER_EQ=$(repeat_chars "=" "$WIDTH")
+  BORDER_DASH=$(repeat_chars "-" "$WIDTH")
+
+  TITLE="$NAME"
+  if (( ${#TITLE} > WIDTH )); then
+    TITLE="${TITLE:0:WIDTH}"
+  fi
+  title_pad=$(( (WIDTH - ${#TITLE}) / 2 ))
+  (( title_pad < 0 )) && title_pad=0
+  right_pad=$(( WIDTH - ${#TITLE} - title_pad ))
+  (( right_pad < 0 )) && right_pad=0
+
   truncate_value() {
     local v="$1"
     if (( ${#v} > value_width )); then
-      # Leave room for ellipsis (3 chars); ensure value_width > 3
       if (( value_width > 3 )); then
         v="${v:0:$(( value_width - 3 ))}..."
       else
@@ -243,31 +255,17 @@ else
     printf "%s" "$v"
   }
 
-  BORDER_EQ=$(printf '=%.0s' $(seq 1 $WIDTH))
-  BORDER_DASH=$(printf '-%.0s' $(seq 1 $WIDTH))
-
-  # Center title (truncate if too long for WIDTH)
-  TITLE="$NAME"
-  if (( ${#TITLE} > WIDTH )); then
-    TITLE="${TITLE:0:$WIDTH}"
-  fi
-  title_pad=$(( (WIDTH - ${#TITLE}) / 2 ))
-  centered_title=$(printf "%*s%s%*s" "$title_pad" "" "$TITLE" $(( WIDTH - ${#TITLE} - title_pad )) "")
-
-  # Build aligned lines
   build_line() {
     local label="$1" value="$2"
     local label_colon="${label}:"
-    # Right-pad label field to label_width
-    printf "%-${label_width}s" "$label_colon"
+    printf "%-*s" "$label_width" "$label_colon"
     truncate_value "$value"
     printf "\n"
   }
 
-  # Assemble DESCRIPTION
   {
     printf "%s\n" "$BORDER_EQ"
-    printf "%s\n" "$centered_title"
+    printf "%*s%s%*s\n" "$title_pad" "" "$TITLE" "$right_pad" ""
     printf "%s\n" "$BORDER_DASH"
     for i in "${!LABELS[@]}"; do
       build_line "${LABELS[$i]}" "${VALUES[$i]}"

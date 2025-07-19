@@ -1,4 +1,4 @@
-name: Update Blocklist
+name: update_blocklist
 
 on:
   repository_dispatch:
