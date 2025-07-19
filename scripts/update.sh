@@ -15,22 +15,25 @@ METRICS_FILE="$DATA_DIR/metrics.json"
 TIMESTAMP_ISO="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 UPDATED_HUMAN="$(date -u +'%b %d, %Y, %I:%M %p (UTC)')"
 
+# Enable inclusion of public IPv4 addresses (1 = include, 0 = disable)
+INCLUDE_IPS="${INCLUDE_IPS:-1}"
+
 mkdir -p "$SRC_DIR"
 
 # Temp artifacts
 CHANGED_SET_FILE="$(mktemp)"
 ALL_DOMAINS_FILE="$(mktemp)"
+IP_TMP_FILE="$(mktemp)"
 TMP_OUTPUT="$(mktemp)"
 
 # Cleanup on exit
-trap 'rm -f "$CHANGED_SET_FILE" "$ALL_DOMAINS_FILE" "$TMP_OUTPUT"' EXIT
+trap 'rm -f "$CHANGED_SET_FILE" "$ALL_DOMAINS_FILE" "$IP_TMP_FILE" "$TMP_OUTPUT"' EXIT
 
 ### Load sources configuration
 if [[ -z "$SOURCES_JSON" ]]; then
   echo "ERROR: SOURCES_JSON env var is not set." >&2
   exit 1
 fi
-
 if ! echo "$SOURCES_JSON" | jq -e . >/dev/null 2>&1; then
   echo "ERROR: SOURCES_JSON is not valid JSON." >&2
   exit 1
@@ -52,37 +55,34 @@ is_changed() {
   grep -Fxq "$key" "$CHANGED_SET_FILE"
 }
 
-### Domain normalization & validation
-# Rules:
-#   - Lowercase tokens (domains case-insensitive) for consistent dedup
-#   - Preserve leading "*." wildcard
-#   - Basic RFC constraints (label length, chars)
-normalize_domains() {
-  awk '
-    function tolower_ascii(s,  i,c,out) {
-      out=""
-      for(i=1;i<=length(s);i++){
-        c=substr(s,i,1)
-        if(c>="A" && c<="Z"){ c=tolower(c) }
-        out=out c
-      }
-      return out
-    }
-    function valid(d) {
-      if (length(d) < 1 || length(d) > 253) return 0
-      if (d ~ /^\*\./) {
-        core = substr(d,3)
-        if (core == "" || core ~ /^\./) return 0
-      } else {
-        core = d
-      }
-      if (core ~ /[^a-z0-9\.\-]/) return 0
-      if (core ~ /^\./ || core ~ /\.$/) return 0
-      n=split(core, L, ".")
+### Combined normalization & IP capture
+# - Lowercases domains (stable dedup)
+# - Preserves leading "*."
+# - Validates domain syntax
+# - Captures ONLY public IPv4 addresses (skips loopback, link-local, broadcast, RFC1918)
+normalize_and_capture() {
+  awk -v include_ips="$INCLUDE_IPS" -v ipfile="$IP_TMP_FILE" '
+    function tolower_ascii(s,  i,c,out){ out=""; for(i=1;i<=length(s);i++){ c=substr(s,i,1); if(c>="A"&&c<="Z") c=tolower(c); out=out c } return out }
+    function valid_domain(d){
+      if(length(d)<1 || length(d)>253) return 0
+      if(d ~ /^\*\./){ core=substr(d,3); if(core==""||core~/^\./) return 0 } else core=d
+      if(core ~ /[^a-z0-9\.\-]/) return 0
+      if(core ~ /^\./ || core ~ /\.$/) return 0
+      n=split(core,L,".")
       for(i=1;i<=n;i++){
         if(length(L[i])<1 || length(L[i])>63) return 0
-        if (L[i] ~ /^-/ || L[i] ~ /-$/) return 0
+        if(L[i] ~ /^-/ || L[i] ~ /-$/) return 0
       }
+      return 1
+    }
+    function public_ipv4(ip){
+      if(ip ~ /^0\.0\.0\.0$/) return 0
+      if(ip ~ /^127\./) return 0
+      if(ip ~ /^169\.254\./) return 0
+      if(ip ~ /^255\.255\.255\.255$/) return 0
+      if(ip ~ /^10\./) return 0
+      if(ip ~ /^192\.168\./) return 0
+      if(ip ~ /^172\.(1[6-9]|2[0-9]|3[0-1])\./) return 0
       return 1
     }
     {
@@ -92,19 +92,33 @@ normalize_domains() {
       gsub(/^[ \t]+|[ \t]+$/,"", line)
       if(line=="") next
 
+      # Hosts style line
       if(line ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+[ \t]+/){
-        count = split(line, a, /[ \t]+/)
-        for(i=2;i<=count;i++){
-          d = tolower_ascii(a[i])
-          if(d ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/) continue
-          if(valid(d)) print d
+        split(line,a,/[ \t]+/)
+        lead=a[1]
+        if(include_ips && lead ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ && public_ipv4(lead)){
+          print lead >> ipfile
+        }
+        for(i=2;i<=length(a);i++){
+          d=tolower_ascii(a[i])
+          if(d ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){
+            if(include_ips && public_ipv4(d)) print d >> ipfile
+            continue
+          }
+          if(valid_domain(d)) print d
         }
         next
       }
 
-      d = tolower_ascii(line)
-      if(d ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/) next
-      if(valid(d)) print d
+      # Bare IPv4
+      if(line ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){
+        if(include_ips && public_ipv4(line)) print line >> ipfile
+        next
+      }
+
+      # Domain / wildcard domain
+      d=tolower_ascii(line)
+      if(valid_domain(d)) print d
     }
   '
 }
@@ -134,7 +148,7 @@ process_source() {
   local raw_count
   raw_count=$(grep -v '^[[:space:]]*$' "$raw_file" | wc -l | tr -d ' ')
 
-  normalize_domains < "$raw_file" | sort -u > "$dom_file"
+  normalize_and_capture < "$raw_file" | sort -u > "$dom_file"
 
   local valid_count
   valid_count=$(wc -l < "$dom_file" | tr -d ' ')
@@ -179,13 +193,22 @@ else
     exit 1
   fi
 
-  # --- Dynamic robust metadata banner ---
+  # Gather IPs (if any)
+  TOTAL_IPS=0
+  IP_FILE_DEDUP=""
+  if [[ "$INCLUDE_IPS" == "1" && -s "$IP_TMP_FILE" ]]; then
+    sort -u "$IP_TMP_FILE" > "${IP_TMP_FILE}.dedup"
+    IP_FILE_DEDUP="${IP_TMP_FILE}.dedup"
+    TOTAL_IPS=$(wc -l < "$IP_FILE_DEDUP" | tr -d ' ')
+  fi
+
+  # --- Dynamic robust metadata banner (no IP line) ---
   LIST_SIZE=$(du -h "$ALL_DOMAINS_FILE" | cut -f1)
   LABELS=( "Entries" "Updated" "Size" "Maintainer" "Expires" "License" )
   VALUES=( "$TOTAL" "$UPDATED_HUMAN" "$LIST_SIZE" "$MAINTAINER" "$EXPIRES" "$LICENSE" )
 
   : "${MIN_META_WIDTH:=40}"
-  : "${MAX_META_WIDTH:=60}"
+  : "${MAX_META_WIDTH:=44}"   # Cap lowered to 44 to avoid LS wrapping
   : "${MIN_VALUE_WIDTH:=20}"
 
   max_label_len=0
@@ -276,19 +299,37 @@ else
   DESCRIPTION="$(cat "${TMP_OUTPUT}.desc")"
   rm -f "${TMP_OUTPUT}.desc"
 
-  jq -n \
-    --arg name "$NAME" \
-    --arg description "$DESCRIPTION" \
-    --argjson domains "$(jq -R 'select(length>0)' < "$ALL_DOMAINS_FILE" | jq -s '.')" \
-    '{name:$name, description:$description, "denied-remote-domains":$domains}' \
-    > "$TMP_OUTPUT"
+  # Build JSON (add addresses only if present)
+  if (( TOTAL_IPS > 0 )); then
+    jq -n \
+      --arg name "$NAME" \
+      --arg description "$DESCRIPTION" \
+      --argjson domains "$(jq -R 'select(length>0)' < "$ALL_DOMAINS_FILE" | jq -s '.')" \
+      --argjson addrs "$(jq -R 'select(length>0)' < "$IP_FILE_DEDUP" | jq -s '.')" \
+      '{name:$name, description:$description,
+        "denied-remote-domains":$domains,
+        "denied-remote-addresses":$addrs}' \
+      > "$TMP_OUTPUT"
+  else
+    jq -n \
+      --arg name "$NAME" \
+      --arg description "$DESCRIPTION" \
+      --argjson domains "$(jq -R 'select(length>0)' < "$ALL_DOMAINS_FILE" | jq -s '.')" \
+      '{name:$name, description:$description,
+        "denied-remote-domains":$domains}' \
+      > "$TMP_OUTPUT"
+  fi
 fi
 
-# Metrics
+# Metrics (now include total_addresses)
 jq --arg generated_at "$TIMESTAMP_ISO" \
    --argjson sources "$METRICS_JSON" \
-   --arg total "$( ( [[ -s "$ALL_DOMAINS_FILE" ]] && wc -l < "$ALL_DOMAINS_FILE" ) || echo 0 )" \
-   '{generated_at:$generated_at, total_domains:($total|tonumber), sources:$sources}' \
+   --arg total_domains "$( ( [[ -s "$ALL_DOMAINS_FILE" ]] && wc -l < "$ALL_DOMAINS_FILE" ) || echo 0 )" \
+   --arg total_addresses "${TOTAL_IPS:-0}" \
+   '{generated_at:$generated_at,
+     total_domains:($total_domains|tonumber),
+     total_addresses:($total_addresses|tonumber),
+     sources:$sources}' \
    > "$METRICS_FILE"
 
 # Atomic publish
