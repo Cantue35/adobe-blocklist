@@ -25,9 +25,10 @@ CHANGED_SET_FILE="$(mktemp)"
 ALL_DOMAINS_FILE="$(mktemp)"
 IP_TMP_FILE="$(mktemp)"
 TMP_OUTPUT="$(mktemp)"
+TMP_DESC_FILE="$(mktemp)"
 
 # Cleanup on exit
-trap 'rm -f "$CHANGED_SET_FILE" "$ALL_DOMAINS_FILE" "$IP_TMP_FILE" "$TMP_OUTPUT"' EXIT
+trap 'rm -f "$CHANGED_SET_FILE" "$ALL_DOMAINS_FILE" "$IP_TMP_FILE" "$TMP_OUTPUT" "$TMP_DESC_FILE"' EXIT
 
 ### Load sources configuration
 if [[ -z "$SOURCES_JSON" ]]; then
@@ -43,14 +44,16 @@ fi
 if [[ -f "$PAYLOAD_FILE" ]] && jq -e '.changed_repos' "$PAYLOAD_FILE" >/dev/null 2>&1; then
   jq -r '.changed_repos[] | "\(.owner)/\(.repo)@\(.branch)"' "$PAYLOAD_FILE" | sort -u > "$CHANGED_SET_FILE"
 else
+  # If no payload, this file is empty, and is_changed() will always return true
   : > "$CHANGED_SET_FILE"
 fi
 
 ### Helper: treat all as changed if list empty
 is_changed() {
   local key="$1"
+  # If the changed set file has no size (is empty), all sources are considered changed.
   if [[ ! -s "$CHANGED_SET_FILE" ]]; then
-    return 0
+    return 0 # Success (is changed)
   fi
   grep -Fxq "$key" "$CHANGED_SET_FILE"
 }
@@ -63,65 +66,11 @@ is_changed() {
 normalize_and_capture() {
   awk -v include_ips="$INCLUDE_IPS" -v ipfile="$IP_TMP_FILE" '
     function tolower_ascii(s,  i,c,out){ out=""; for(i=1;i<=length(s);i++){ c=substr(s,i,1); if(c>="A"&&c<="Z") c=tolower(c); out=out c } return out }
-    function valid_domain(d){
-      if(length(d)<1 || length(d)>253) return 0
-      if(d ~ /^\*\./){ core=substr(d,3); if(core==""||core~/^\./) return 0 } else core=d
-      if(core ~ /[^a-z0-9\.\-]/) return 0
-      if(core ~ /^\./ || core ~ /\.$/) return 0
-      n=split(core,L,".")
-      for(i=1;i<=n;i++){
-        if(length(L[i])<1 || length(L[i])>63) return 0
-        if(L[i] ~ /^-/ || L[i] ~ /-$/) return 0
-      }
-      return 1
-    }
-    function public_ipv4(ip){
-      if(ip ~ /^0\.0\.0\.0$/) return 0
-      if(ip ~ /^127\./) return 0
-      if(ip ~ /^169\.254\./) return 0
-      if(ip ~ /^255\.255\.255\.255$/) return 0
-      if(ip ~ /^10\./) return 0
-      if(ip ~ /^192\.168\./) return 0
-      if(ip ~ /^172\.(1[6-9]|2[0-9]|3[0-1])\./) return 0
-      return 1
-    }
-    {
-      gsub(/\r/,"")
-      line=$0
-      sub(/#.*/,"", line)
-      gsub(/^[ \t]+|[ \t]+$/,"", line)
-      if(line=="") next
-
-      # Hosts style line
-      if(line ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+[ \t]+/){
-        split(line,a,/[ \t]+/)
-        lead=a[1]
-        if(include_ips && lead ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/ && public_ipv4(lead)){
-          print lead >> ipfile
-        }
-        for(i=2;i<=length(a);i++){
-          d=tolower_ascii(a[i])
-          if(d ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){
-            if(include_ips && public_ipv4(d)) print d >> ipfile
-            continue
-          }
-          if(valid_domain(d)) print d
-        }
-        next
-      }
-
-      # Bare IPv4
-      if(line ~ /^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){
-        if(include_ips && public_ipv4(line)) print line >> ipfile
-        next
-      }
-
-      # Domain / wildcard domain
-      d=tolower_ascii(line)
-      if(valid_domain(d)) print d
-    }
-  '
+    function valid_domain(d){ if(length(d)<1||length(d)>253)return 0;if(d~/^\*\./){core=substr(d,3);if(core==""||core~/^\./)return 0}else core=d;if(core~/[^a-z0-9\.\-]/)return 0;if(core~/^\./||core~/\.$/)return 0;n=split(core,L,".");for(i=1;i<=n;i++){if(length(L[i])<1||length(L[i])>63)return 0;if(L[i]~/^-/||L[i]~/-$/)return 0}return 1 }
+    function public_ipv4(ip){ if(ip~/^0\.0\.0\.0$/)return 0;if(ip~/^127\./)return 0;if(ip~/^169\.254\./)return 0;if(ip~/^255\.255\.255\.255$/)return 0;if(ip~/^10\./)return 0;if(ip~/^192\.168\./)return 0;if(ip~/^172\.(1[6-9]|2[0-9]|3[0-1])\./)return 0;return 1 }
+    { gsub(/\r/,"");line=$0;sub(/#.*/,"",line);gsub(/^[ \t]+|[ \t]+$/,"",line);if(line=="")next;if(line~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+[ \t]+/){split(line,a,/[ \t]+/);lead=a[1];if(include_ips&&lead~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/&&public_ipv4(lead)){print lead>>ipfile}for(i=2;i<=length(a);i++){d=tolower_ascii(a[i]);if(d~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){if(include_ips&&public_ipv4(d))print d>>ipfile;continue}if(valid_domain(d))print d}next}if(line~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){if(include_ips&&public_ipv4(line))print line>>ipfile;next}d=tolower_ascii(line);if(valid_domain(d))print d }'
 }
+
 
 # Metrics accumulator
 METRICS_JSON='[]'
@@ -146,37 +95,41 @@ process_source() {
   fi
 
   local raw_count
-  raw_count=$(grep -v '^[[:space:]]*$' "$raw_file" | wc -l | tr -d ' ')
+  raw_count=$(grep -c . "$raw_file")
 
   normalize_and_capture < "$raw_file" | sort -u > "$dom_file"
 
   local valid_count
-  valid_count=$(wc -l < "$dom_file" | tr -d ' ')
+  valid_count=$(wc -l < "$dom_file")
   local invalid_count=$(( raw_count - valid_count ))
   cat "$dom_file" >> "$ALL_DOMAINS_FILE"
 
+  # Safely add to the JSON array
   METRICS_JSON="$(jq \
-    --arg id "$id" \
-    --arg repo "$key" \
-    --arg path "$path" \
-    --arg format "$format" \
-    --arg raw_count "$raw_count" \
-    --arg valid_count "$valid_count" \
-    --arg invalid_count "$invalid_count" \
-    '. + [{id:$id, repo:$repo, path:$path, format:$format, raw:($raw_count|tonumber), valid:($valid_count|tonumber), invalid:($invalid_count|tonumber)}]' \
+    --arg id "$id" --arg repo "$key" --arg path "$path" --arg format "$format" \
+    --argjson raw_count "$raw_count" --argjson valid_count "$valid_count" --argjson invalid_count "$invalid_count" \
+    '. + [{id:$id, repo:$repo, path:$path, format:$format, raw:$raw_count, valid:$valid_count, invalid:$invalid_count}]' \
     <<<"$METRICS_JSON")"
 }
 
-# Iterate sources
-jq -c '.[]' <<<"$SOURCES_JSON" | while read -r src; do
-  id=$(jq -r '.id' <<<"$src")
-  owner=$(jq -r '.owner' <<<"$src")
-  repo=$(jq -r '.repo' <<<"$src")
-  branch=$(jq -r '.branch' <<<"$src")
-  path=$(jq -r '.path' <<<"$src")
+# Use Process Substitution to iterate sources and preserve METRICS_JSON
+while read -r src; do
+  # Add checks for jq fields to prevent errors with malformed JSON
+  id=$(jq -r '.id // "unknown"' <<<"$src")
+  owner=$(jq -r '.owner // ""' <<<"$src")
+  repo=$(jq -r '.repo // ""' <<<"$src")
+  branch=$(jq -r '.branch // "main"' <<<"$src")
+  path=$(jq -r '.path // ""' <<<"$src")
   format=$(jq -r '.format // "hosts"' <<<"$src")
+
+  if [[ -z "$owner" || -z "$repo" || -z "$path" ]]; then
+    echo "WARNING: Skipping source with missing owner, repo, or path: $id" >&2
+    continue
+  fi
+
   process_source "$id" "$owner" "$repo" "$branch" "$path" "$format"
-done
+done < <(jq -c '.[]' <<<"$SOURCES_JSON")
+
 
 # Build final output
 if [[ ! -s "$ALL_DOMAINS_FILE" ]]; then
@@ -184,106 +137,70 @@ if [[ ! -s "$ALL_DOMAINS_FILE" ]]; then
   jq -n --arg name "$NAME" --arg description "No changes at $UPDATED_HUMAN" \
       '{name:$name, description:$description, "denied-remote-domains":[]}' > "$TMP_OUTPUT"
 else
-  sort -u "$ALL_DOMAINS_FILE" > "${ALL_DOMAINS_FILE}.dedup"
-  mv "${ALL_DOMAINS_FILE}.dedup" "$ALL_DOMAINS_FILE"
-  TOTAL=$(wc -l < "$ALL_DOMAINS_FILE" | tr -d ' ')
+  # Final deduplication
+  sort -u -o "$ALL_DOMAINS_FILE" "$ALL_DOMAINS_FILE"
+  TOTAL=$(wc -l < "$ALL_DOMAINS_FILE")
 
   if [[ "$TOTAL" -gt 200000 ]]; then
     echo "ERROR: Total domains ($TOTAL) exceed 200000 limit." >&2
     exit 1
   fi
 
-  # Gather IPs (if any)
+  # Gather and deduplicate IPs (if any)
   TOTAL_IPS=0
   IP_FILE_DEDUP=""
   if [[ "$INCLUDE_IPS" == "1" && -s "$IP_TMP_FILE" ]]; then
-    sort -u "$IP_TMP_FILE" > "${IP_TMP_FILE}.dedup"
-    IP_FILE_DEDUP="${IP_TMP_FILE}.dedup"
-    TOTAL_IPS=$(wc -l < "$IP_FILE_DEDUP" | tr -d ' ')
+    sort -u -o "$IP_TMP_FILE" "$IP_TMP_FILE"
+    IP_FILE_DEDUP="$IP_TMP_FILE"
+    TOTAL_IPS=$(wc -l < "$IP_FILE_DEDUP")
   fi
 
-  # --- Dynamic robust metadata banner (no IP line) ---
+  # Implement robust Columnar Layout for the description banner
   LIST_SIZE=$(du -h "$ALL_DOMAINS_FILE" | cut -f1)
   LABELS=( "Entries" "Updated" "Size" "Maintainer" "Expires" "License" )
   VALUES=( "$TOTAL" "$UPDATED_HUMAN" "$LIST_SIZE" "$MAINTAINER" "$EXPIRES" "$LICENSE" )
-
-  : "${MIN_META_WIDTH:=40}"
-  : "${MAX_META_WIDTH:=44}"   # Cap lowered to 44 to avoid LS wrapping
-  : "${MIN_VALUE_WIDTH:=20}"
+  : "${MAX_META_WIDTH:=44}"
 
   max_label_len=0
   for lbl in "${LABELS[@]}"; do
-    l=$(( ${#lbl} + 1 ))
-    (( l > max_label_len )) && max_label_len=$l
+    (( ${#lbl} > max_label_len )) && max_label_len=${#lbl}
   done
-  label_width=$(( max_label_len + 1 ))
-  (( label_width < 1 )) && label_width=1
+  COL1_WIDTH=$(( max_label_len + 2 ))
 
-  natural_width=${#NAME}
+  BANNER_WIDTH=${#NAME}
   for i in "${!LABELS[@]}"; do
-    val="${VALUES[$i]}"
-    line_len=$(( label_width + ${#val} ))
-    (( line_len > natural_width )) && natural_width=$line_len
+    line_len=$(( COL1_WIDTH + ${#VALUES[i]} ))
+    (( line_len > BANNER_WIDTH )) && BANNER_WIDTH=$line_len
   done
 
-  if (( natural_width < MIN_META_WIDTH )); then
-    WIDTH=$MIN_META_WIDTH
-  elif (( natural_width > MAX_META_WIDTH )); then
-    WIDTH=$MAX_META_WIDTH
-  else
-    WIDTH=$natural_width
-  fi
-
-  min_allowed=$(( label_width + MIN_VALUE_WIDTH ))
-  if (( WIDTH < min_allowed )); then
-    WIDTH=$min_allowed
-  fi
-
-  value_width=$(( WIDTH - label_width ))
-  if (( value_width < MIN_VALUE_WIDTH )); then
-    value_width=$MIN_VALUE_WIDTH
-    WIDTH=$(( label_width + value_width ))
-  fi
+  (( BANNER_WIDTH > MAX_META_WIDTH )) && BANNER_WIDTH=$MAX_META_WIDTH
 
   repeat_chars() {
-    local ch="$1" count="$2" out=""
-    while (( count > 0 )); do
-      out+="$ch"
-      ((count--))
-    done
-    printf "%s" "$out"
+    printf "%*s" "$2" "" | tr ' ' "$1"
   }
 
-  BORDER_EQ=$(repeat_chars "=" "$WIDTH")
-  BORDER_DASH=$(repeat_chars "-" "$WIDTH")
+  BORDER_EQ=$(repeat_chars "=" "$BANNER_WIDTH")
+  BORDER_DASH=$(repeat_chars "-" "$BANNER_WIDTH")
 
   TITLE="$NAME"
-  if (( ${#TITLE} > WIDTH )); then
-    TITLE="${TITLE:0:WIDTH}"
-  fi
-  title_pad=$(( (WIDTH - ${#TITLE}) / 2 ))
-  (( title_pad < 0 )) && title_pad=0
-  right_pad=$(( WIDTH - ${#TITLE} - title_pad ))
-  (( right_pad < 0 )) && right_pad=0
+  (( ${#TITLE} > BANNER_WIDTH )) && TITLE="${TITLE:0:BANNER_WIDTH}"
+  title_pad=$(( (BANNER_WIDTH - ${#TITLE}) / 2 ))
+  right_pad=$(( BANNER_WIDTH - ${#TITLE} - title_pad ))
+
+  VALUE_WIDTH_LIMIT=$(( BANNER_WIDTH - COL1_WIDTH ))
+  (( VALUE_WIDTH_LIMIT < 3 )) && VALUE_WIDTH_LIMIT=3
 
   truncate_value() {
     local v="$1"
-    if (( ${#v} > value_width )); then
-      if (( value_width > 3 )); then
-        v="${v:0:$(( value_width - 3 ))}..."
-      else
-        v="${v:0:value_width}"
-      fi
+    if (( ${#v} > VALUE_WIDTH_LIMIT )); then
+      v="${v:0:$(( VALUE_WIDTH_LIMIT - 3 ))}..."
     fi
     printf "%s" "$v"
   }
 
   build_line() {
     local label="$1" value="$2"
-    local label_colon="${label}:"
-    printf "%-*s" "$label_width" "$label_colon"
-    truncate_value "$value"
-    printf "\n"
+    printf "%-*s%s\n" "$COL1_WIDTH" "${label}:" "$(truncate_value "$value")"
   }
 
   {
@@ -291,45 +208,39 @@ else
     printf "%*s%s%*s\n" "$title_pad" "" "$TITLE" "$right_pad" ""
     printf "%s\n" "$BORDER_DASH"
     for i in "${!LABELS[@]}"; do
-      build_line "${LABELS[$i]}" "${VALUES[$i]}"
+      build_line "${LABELS[i]}" "${VALUES[i]}"
     done
     printf "%s\n" "$BORDER_EQ"
-  } > "${TMP_OUTPUT}.desc"
+  } > "$TMP_DESC_FILE"
 
-  DESCRIPTION="$(cat "${TMP_OUTPUT}.desc")"
-  rm -f "${TMP_OUTPUT}.desc"
-
-  # Build JSON (add addresses only if present)
+  # Use --rawfile to read description and build final JSON
   if (( TOTAL_IPS > 0 )); then
     jq -n \
       --arg name "$NAME" \
-      --arg description "$DESCRIPTION" \
+      --rawfile description "$TMP_DESC_FILE" \
       --argjson domains "$(jq -R 'select(length>0)' < "$ALL_DOMAINS_FILE" | jq -s '.')" \
       --argjson addrs "$(jq -R 'select(length>0)' < "$IP_FILE_DEDUP" | jq -s '.')" \
-      '{name:$name, description:$description,
-        "denied-remote-domains":$domains,
-        "denied-remote-addresses":$addrs}' \
+      '{name:$name, description:$description, "denied-remote-domains":$domains, "denied-remote-addresses":$addrs}' \
       > "$TMP_OUTPUT"
   else
     jq -n \
       --arg name "$NAME" \
-      --arg description "$DESCRIPTION" \
+      --rawfile description "$TMP_DESC_FILE" \
       --argjson domains "$(jq -R 'select(length>0)' < "$ALL_DOMAINS_FILE" | jq -s '.')" \
-      '{name:$name, description:$description,
-        "denied-remote-domains":$domains}' \
+      '{name:$name, description:$description, "denied-remote-domains":$domains}' \
       > "$TMP_OUTPUT"
   fi
 fi
 
-# Metrics (now include total_addresses)
-jq --arg generated_at "$TIMESTAMP_ISO" \
+# Build final metrics file
+TOTAL_DOMAINS_FINAL=$( ( [[ -s "$ALL_DOMAINS_FILE" ]] && wc -l < "$ALL_DOMAINS_FILE" ) || echo 0 )
+TOTAL_ADDRESSES_FINAL=$( ( [[ "$INCLUDE_IPS" == "1" && -s "$IP_TMP_FILE" ]] && wc -l < "$IP_TMP_FILE" ) || echo 0 )
+
+jq -n --arg generated_at "$TIMESTAMP_ISO" \
    --argjson sources "$METRICS_JSON" \
-   --arg total_domains "$( ( [[ -s "$ALL_DOMAINS_FILE" ]] && wc -l < "$ALL_DOMAINS_FILE" ) || echo 0 )" \
-   --arg total_addresses "${TOTAL_IPS:-0}" \
-   '{generated_at:$generated_at,
-     total_domains:($total_domains|tonumber),
-     total_addresses:($total_addresses|tonumber),
-     sources:$sources}' \
+   --argjson total_domains "$TOTAL_DOMAINS_FINAL" \
+   --argjson total_addresses "$TOTAL_ADDRESSES_FINAL" \
+   '{generated_at:$generated_at, total_domains:$total_domains, total_addresses:$total_addresses, sources:$sources}' \
    > "$METRICS_FILE"
 
 # Atomic publish
