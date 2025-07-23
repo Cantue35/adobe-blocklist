@@ -2,28 +2,22 @@
   "changed_repo_count": 1,
   "changed_repos": [
     {
-      "branch": "master",
-      "currentHead": "aa2e0c9900605c78ce3d79951a5cbd6ca6bb6674",
+      "branch": "main",
+      "currentHead": "c8cfd4d5dee57c9f13ec734122d376203e1b6248",
       "firstRun": false,
-      "newCommitCount": 2,
+      "newCommitCount": 1,
       "newCommits": [
         {
-          "date": "2025-07-23T17:54:04Z",
-          "message": "Update README.md",
-          "sha": "aa2e0c9900605c78ce3d79951a5cbd6ca6bb6674",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/aa2e0c9900605c78ce3d79951a5cbd6ca6bb6674"
-        },
-        {
-          "date": "2025-07-23T17:53:37Z",
-          "message": "Update README.md",
-          "sha": "887545ec25d99108558c79501f21f365fd281018",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/887545ec25d99108558c79501f21f365fd281018"
+          "date": "2025-07-23T19:21:25Z",
+          "message": "Updated hosts (2025-07-23 19:21 UTC)",
+          "sha": "c8cfd4d5dee57c9f13ec734122d376203e1b6248",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/c8cfd4d5dee57c9f13ec734122d376203e1b6248"
         }
       ],
-      "owner": "Ruddernation-Designs",
-      "previousHead": "c75d3d42b28380f932e0a5b7e7d919151c335bf7",
-      "repo": "Adobe-URL-Block-List"
+      "owner": "ignaciocastro",
+      "previousHead": "cc0752083f51464c8c8c17efa4bc7b4420f3c4ad",
+      "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2025-07-23T18:16:44.269Z"
+  "dispatched_at": "2025-07-23T20:40:43.184Z"
 }
