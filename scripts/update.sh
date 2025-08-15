@@ -155,40 +155,37 @@ else
     TOTAL_IPS=$(wc -l < "$IP_FILE_DEDUP")
   fi
 
-  # Implement robust Columnar Layout for the description banner
+    # Implement robust Columnar Layout for the description banner
+  # UI constraints (override via env if needed)
+  EQ_LEN=${EQ_LEN:-33}      # '=' bar length (top/bottom)
+  DASH_LEN=${DASH_LEN:-44}  # '-' bar length (also content width)
+  CONTENT_WIDTH="$DASH_LEN"
+
   LIST_SIZE=$(du -h "$ALL_DOMAINS_FILE" | cut -f1)
   LABELS=( "Entries" "Updated" "Size" "Maintainer" "Expires" "License" )
   VALUES=( "$TOTAL" "$UPDATED_HUMAN" "$LIST_SIZE" "$MAINTAINER" "$EXPIRES" "$LICENSE" )
-  : "${MAX_META_WIDTH:=44}"
 
+  # longest label for alignment
   max_label_len=0
   for lbl in "${LABELS[@]}"; do
     (( ${#lbl} > max_label_len )) && max_label_len=${#lbl}
   done
-  COL1_WIDTH=$(( max_label_len + 2 ))
-
-  BANNER_WIDTH=${#NAME}
-  for i in "${!LABELS[@]}"; do
-    line_len=$(( COL1_WIDTH + ${#VALUES[i]} ))
-    (( line_len > BANNER_WIDTH )) && BANNER_WIDTH=$line_len
-  done
-
-  (( BANNER_WIDTH > MAX_META_WIDTH )) && BANNER_WIDTH=$MAX_META_WIDTH
+  COL1_WIDTH=$(( max_label_len + 1 + 4 ))   # label + ":" + 4 spaces
+  (( COL1_WIDTH >= CONTENT_WIDTH )) && COL1_WIDTH=$(( CONTENT_WIDTH - 3 ))
+  VALUE_WIDTH_LIMIT=$(( CONTENT_WIDTH - COL1_WIDTH ))
+  (( VALUE_WIDTH_LIMIT < 3 )) && VALUE_WIDTH_LIMIT=3
 
   repeat_chars() {
     printf "%*s" "$2" "" | tr ' ' "$1"
   }
 
-  BORDER_EQ=$(repeat_chars "=" "$BANNER_WIDTH")
-  BORDER_DASH=$(repeat_chars "-" "$BANNER_WIDTH")
+  BORDER_EQ=$(repeat_chars "=" "$EQ_LEN")
+  BORDER_DASH=$(repeat_chars "-" "$DASH_LEN")
 
   TITLE="$NAME"
-  (( ${#TITLE} > BANNER_WIDTH )) && TITLE="${TITLE:0:BANNER_WIDTH}"
-  title_pad=$(( (BANNER_WIDTH - ${#TITLE}) / 2 ))
-  right_pad=$(( BANNER_WIDTH - ${#TITLE} - title_pad ))
-
-  VALUE_WIDTH_LIMIT=$(( BANNER_WIDTH - COL1_WIDTH ))
-  (( VALUE_WIDTH_LIMIT < 3 )) && VALUE_WIDTH_LIMIT=3
+  (( ${#TITLE} > CONTENT_WIDTH )) && TITLE="${TITLE:0:CONTENT_WIDTH}"
+  title_pad=$(( (CONTENT_WIDTH - ${#TITLE}) / 2 ))
+  right_pad=$(( CONTENT_WIDTH - ${#TITLE} - title_pad ))
 
   truncate_value() {
     local v="$1"
