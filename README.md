@@ -1,6 +1,17 @@
 <p align="center">
   <a href="https://github.com/Cantue35/adobe-blocklist" target="_blank">
-    <img src="https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/data/blocklistbanner.png" width="425px" alt="Adobe Blocklist for Little Snitch banner">
+    <picture>
+      <!-- Dark mode -->
+      <source media="(prefers-color-scheme: dark)"
+              srcset="https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/data/blocklistbanner-dark.png">
+      <!-- Light mode -->
+      <source media="(prefers-color-scheme: light)"
+              srcset="https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/data/blocklistbanner-light.png">
+      <!-- Fallback (shown if no prefers-color-scheme support) -->
+      <img src="https://raw.githubusercontent.com/Cantue35/adobe-blocklist/main/data/blocklistbanner-light.png"
+           width="425"
+           alt="Adobe Blocklist for Little Snitch — project banner">
+    </picture>
   </a>
 </p>
 
