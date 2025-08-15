@@ -3,10 +3,17 @@ name: update_blocklist
 on:
   repository_dispatch:
     types: [update_blocklist]
-  workflow_dispatch:              # Manual trigger
+  workflow_dispatch: # Manual trigger
+    inputs:
+      full_rebuild:
+        description: "Force refetch all sources"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false","true"]
 
 permissions:
-  contents: write                 # Needed to push changes
+  contents: write # Needed to push changes
 
 concurrency:
   group: update-blocklist
@@ -19,13 +26,12 @@ jobs:
     env:
       SOURCES_JSON: ${{ vars.SOURCES_JSON }}
       BLOCKLIST_NAME: "Adobe Telemetry Blocklist"
-      # (Optionally set MIN_META_WIDTH / MAX_META_WIDTH / MIN_VALUE_WIDTH here)
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1          # Fast; use 0 only if you later need full history
+          fetch-depth: 1
 
       - name: Show dispatch payload (if repository_dispatch)
         if: ${{ github.event_name == 'repository_dispatch' }}
@@ -34,10 +40,20 @@ jobs:
           echo '${{ toJson(github.event.client_payload) }}' > payload.json
           jq '.' payload.json || cat payload.json
 
+      # Map manual input to FORCE_FULL_REBUILD (workflow_dispatch)
+      - name: Map manual full_rebuild input
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          if [[ "${{ github.event.inputs.full_rebuild }}" == "true" ]]; then
+            echo "FORCE_FULL_REBUILD=1" >> "$GITHUB_ENV"
+            echo "Manual full rebuild requested."
+          fi
+
       - name: Run update script
         shell: bash
         run: |
           set -euo pipefail
+          echo "FORCE_FULL_REBUILD=${FORCE_FULL_REBUILD:-}"
           if [[ -z "${SOURCES_JSON:-}" ]]; then
             echo "ERROR: SOURCES_JSON env not set." >&2
             exit 1

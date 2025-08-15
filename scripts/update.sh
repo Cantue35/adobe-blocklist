@@ -15,20 +15,20 @@ METRICS_FILE="$DATA_DIR/metrics.json"
 TIMESTAMP_ISO="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
 UPDATED_HUMAN="$(date -u +'%b %d, %Y, %I:%M %p (UTC)')"
 
-# Enable inclusion of public IPv4 addresses (1 = include, 0 = disable)
+# Enable inclusion of public IPv4 addresses into .domains and final output (1 = include, 0 = disable)
 INCLUDE_IPS="${INCLUDE_IPS:-1}"
 
 mkdir -p "$SRC_DIR"
 
-# Temp artifacts
+# Temp artifacts (run-level collectors)
 CHANGED_SET_FILE="$(mktemp)"
-ALL_DOMAINS_FILE="$(mktemp)"
-IP_TMP_FILE="$(mktemp)"
+ALL_DOMAINS_FILE="$(mktemp)"     # non-IP entries
+IP_RUN_TMP_FILE="$(mktemp)"      # IP entries (public IPv4)
 TMP_OUTPUT="$(mktemp)"
 TMP_DESC_FILE="$(mktemp)"
 
 # Cleanup on exit
-trap 'rm -f "$CHANGED_SET_FILE" "$ALL_DOMAINS_FILE" "$IP_TMP_FILE" "$TMP_OUTPUT" "$TMP_DESC_FILE"' EXIT
+trap 'rm -f "$CHANGED_SET_FILE" "$ALL_DOMAINS_FILE" "$IP_RUN_TMP_FILE" "$TMP_OUTPUT" "$TMP_DESC_FILE"' EXIT
 
 ### Load sources configuration
 if [[ -z "$SOURCES_JSON" ]]; then
@@ -48,9 +48,12 @@ else
   : > "$CHANGED_SET_FILE"
 fi
 
-### Helper: treat all as changed if list empty
+### Helper: treat all as changed if list empty (or FORCE_FULL_REBUILD set)
 is_changed() {
   local key="$1"
+  if [[ -n "${FORCE_FULL_REBUILD:-}" ]]; then
+    return 0
+  fi
   # If the changed set file has no size (is empty), all sources are considered changed.
   if [[ ! -s "$CHANGED_SET_FILE" ]]; then
     return 0 # Success (is changed)
@@ -58,63 +61,149 @@ is_changed() {
   grep -Fxq "$key" "$CHANGED_SET_FILE"
 }
 
-### Combined normalization & IP capture
-# - Lowercases domains (stable dedup)
-# - Preserves leading "*."
-# - Validates domain syntax
-# - Captures ONLY public IPv4 addresses (skips loopback, link-local, broadcast, RFC1918)
+### Normalization & optional IPv4 capture to STDOUT
+# - Outputs VALID domains (lowercased, "*." preserved) to stdout
+# - If INCLUDE_IPS=1, also outputs public IPv4 addresses to stdout
 normalize_and_capture() {
-  awk -v include_ips="$INCLUDE_IPS" -v ipfile="$IP_TMP_FILE" '
+  awk -v include_ips="$INCLUDE_IPS" '
     function tolower_ascii(s,  i,c,out){ out=""; for(i=1;i<=length(s);i++){ c=substr(s,i,1); if(c>="A"&&c<="Z") c=tolower(c); out=out c } return out }
-    function valid_domain(d){ if(length(d)<1||length(d)>253)return 0;if(d~/^\*\./){core=substr(d,3);if(core==""||core~/^\./)return 0}else core=d;if(core~/[^a-z0-9\.\-]/)return 0;if(core~/^\./||core~/\.$/)return 0;n=split(core,L,".");for(i=1;i<=n;i++){if(length(L[i])<1||length(L[i])>63)return 0;if(L[i]~/^-/||L[i]~/-$/)return 0}return 1 }
-    function public_ipv4(ip){ if(ip~/^0\.0\.0\.0$/)return 0;if(ip~/^127\./)return 0;if(ip~/^169\.254\./)return 0;if(ip~/^255\.255\.255\.255$/)return 0;if(ip~/^10\./)return 0;if(ip~/^192\.168\./)return 0;if(ip~/^172\.(1[6-9]|2[0-9]|3[0-1])\./)return 0;return 1 }
-    { gsub(/\r/,"");line=$0;sub(/#.*/,"",line);gsub(/^[ \t]+|[ \t]+$/,"",line);if(line=="")next;if(line~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+[ \t]+/){split(line,a,/[ \t]+/);lead=a[1];if(include_ips&&lead~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/&&public_ipv4(lead)){print lead>>ipfile}for(i=2;i<=length(a);i++){d=tolower_ascii(a[i]);if(d~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){if(include_ips&&public_ipv4(d))print d>>ipfile;continue}if(valid_domain(d))print d}next}if(line~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){if(include_ips&&public_ipv4(line))print line>>ipfile;next}d=tolower_ascii(line);if(valid_domain(d))print d }'
-}
+    function valid_domain(d){
+      if(length(d)<1||length(d)>253) return 0
+      if(d~/^\*\./){ core=substr(d,3); if(core==""||core~/^\./) return 0 } else core=d
+      if(core~/[^a-z0-9\.\-]/) return 0
+      if(core~/^\./||core~/\.$/) return 0
+      n=split(core,L,".")
+      for(i=1;i<=n;i++){
+        if(length(L[i])<1||length(L[i])>63) return 0
+        if(L[i]~/^-/||L[i]~/-$/) return 0
+      }
+      return 1
+    }
+    function public_ipv4(ip){
+      if(ip~/^0\.0\.0\.0$/)return 0
+      if(ip~/^127\./)return 0
+      if(ip~/^169\.254\./)return 0
+      if(ip~/^255\.255\.255\.255$/)return 0
+      if(ip~/^10\./)return 0
+      if(ip~/^192\.168\./)return 0
+      if(ip~/^172\.(1[6-9]|2[0-9]|3[0-1])\./)return 0
+      return 1
+    }
+    {
+      gsub(/\r/,"")
+      line=$0
+      sub(/#.*/,"",line)
+      gsub(/^[ \t]+|[ \t]+$/,"",line)
+      if(line=="") next
 
+      # hosts-style lines: IP (maybe) followed by one or more names
+      if(line~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+[ \t]+/){
+        n=split(line,a,/[ \t]+/)
+        lead=a[1]
+        if(include_ips && public_ipv4(lead)) print lead
+        for(i=2;i<=n;i++){
+          d=tolower_ascii(a[i])
+          if(d~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){
+            if(include_ips && public_ipv4(d)) print d
+            continue
+          }
+          if(valid_domain(d)) print d
+        }
+        next
+      }
+
+      # standalone IPv4
+      if(line~/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/){
+        if(include_ips && public_ipv4(line)) print line
+        next
+      }
+
+      d=tolower_ascii(line)
+      if(valid_domain(d)) print d
+    }'
+}
 
 # Metrics accumulator
 METRICS_JSON='[]'
+
+# Append a mixed .domains file to run-level collectors (split IP vs non-IP)
+append_mixed_to_collectors() {
+  local domains_path="$1"
+  if [[ -s "$domains_path" ]]; then
+    awk '!/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/' "$domains_path" >> "$ALL_DOMAINS_FILE"
+    if [[ "$INCLUDE_IPS" == "1" ]]; then
+      awk '/^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/' "$domains_path" >> "$IP_RUN_TMP_FILE"
+    fi
+  fi
+}
 
 process_source() {
   local id="$1" owner="$2" repo="$3" branch="$4" path="$5" format="$6"
   local key="${owner}/${repo}@${branch}"
 
-  if ! is_changed "$key"; then
-    echo "Skipping unchanged source: $key ($id)"
-    return
-  fi
-
   local raw_url="https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}"
   local raw_file="$SRC_DIR/${id}.raw"
   local dom_file="$SRC_DIR/${id}.domains"
 
-  echo "Fetching $raw_url"
-  if ! curl -fSL --compressed -o "$raw_file" "$raw_url"; then
-    echo "WARNING: Failed to fetch $raw_url" >&2
+  if ! is_changed "$key"; then
+    echo "Reusing unchanged source (cache): $key ($id)"
+    append_mixed_to_collectors "$dom_file"
+
+    if [[ -s "$dom_file" ]]; then
+      local valid_count
+      valid_count=$(wc -l < "$dom_file")
+      METRICS_JSON="$(jq \
+        --arg id "$id" --arg repo "$key" --arg path "$path" --arg format "$format" \
+        --argjson raw_count "$valid_count" --argjson valid_count "$valid_count" --argjson invalid_count 0 \
+        '. + [{id:$id, repo:$repo, path:$path, format:$format, raw:$raw_count, valid:$valid_count, invalid:$invalid_count, reused:true}]' \
+        <<<"$METRICS_JSON")"
+    else
+      echo "WARNING: No cached .domains for unchanged source $id; it will be omitted." >&2
+    fi
     return
   fi
 
-  local raw_count
-  raw_count=$(grep -c . "$raw_file")
+  echo "Fetching $raw_url"
+  if ! curl -fSL --compressed -o "$raw_file" "$raw_url"; then
+    echo "WARNING: Failed to fetch $raw_url; falling back to cache if available." >&2
+    append_mixed_to_collectors "$dom_file"
+    if [[ -s "$dom_file" ]]; then
+      local valid_count
+      valid_count=$(wc -l < "$dom_file")
+      METRICS_JSON="$(jq \
+        --arg id "$id" --arg repo "$key" --arg path "$path" --arg format "$format" \
+        --argjson raw_count "$valid_count" --argjson valid_count "$valid_count" --argjson invalid_count 0 \
+        '. + [{id:$id, repo:$repo, path:$path, format:$format, raw:$raw_count, valid:$valid_count, invalid:$invalid_count, reused:true, note:"fetch_failed_used_cache"}]' \
+        <<<"$METRICS_JSON")"
+    fi
+    return
+  fi
 
+  # Count raw non-empty lines (before normalization)
+  local raw_count
+  raw_count=$(grep -c . "$raw_file" || true)
+
+  # Regenerate mixed .domains (domains +, optionally, IPs)
   normalize_and_capture < "$raw_file" | sort -u > "$dom_file"
 
-  local valid_count
-  valid_count=$(wc -l < "$dom_file")
-  local invalid_count=$(( raw_count - valid_count ))
-  cat "$dom_file" >> "$ALL_DOMAINS_FILE"
+  # Contribute to run-level collectors
+  append_mixed_to_collectors "$dom_file"
 
-  # Safely add to the JSON array
+  # Metrics
+  local valid_count
+  valid_count=$( ( [[ -s "$dom_file" ]] && wc -l < "$dom_file" ) || echo 0 )
+  local invalid_count=$(( raw_count - valid_count ))
+  (( invalid_count < 0 )) && invalid_count=0
+
   METRICS_JSON="$(jq \
     --arg id "$id" --arg repo "$key" --arg path "$path" --arg format "$format" \
     --argjson raw_count "$raw_count" --argjson valid_count "$valid_count" --argjson invalid_count "$invalid_count" \
-    '. + [{id:$id, repo:$repo, path:$path, format:$format, raw:$raw_count, valid:$valid_count, invalid:$invalid_count}]' \
+    '. + [{id:$id, repo:$repo, path:$path, format:$format, raw:$raw_count, valid:$valid_count, invalid:$invalid_count, reused:false}]' \
     <<<"$METRICS_JSON")"
 }
 
-# Use Process Substitution to iterate sources and preserve METRICS_JSON
+# Iterate sources and process (changed => refetch; unchanged => reuse cache)
 while read -r src; do
-  # Add checks for jq fields to prevent errors with malformed JSON
   id=$(jq -r '.id // "unknown"' <<<"$src")
   owner=$(jq -r '.owner // ""' <<<"$src")
   repo=$(jq -r '.repo // ""' <<<"$src")
@@ -132,53 +221,39 @@ done < <(jq -c '.[]' <<<"$SOURCES_JSON")
 
 
 # Build final output
-if [[ ! -s "$ALL_DOMAINS_FILE" ]]; then
-  echo "No domains collected (possibly no changed sources)."
+if [[ ! -s "$ALL_DOMAINS_FILE" && ! -s "$IP_RUN_TMP_FILE" ]]; then
+  echo "No entries collected (possibly no changed sources and no cache)."
   jq -n --arg name "$NAME" --arg description "No changes at $UPDATED_HUMAN" \
       '{name:$name, description:$description, "denied-remote-domains":[]}' > "$TMP_OUTPUT"
 else
   # Final deduplication
-  sort -u -o "$ALL_DOMAINS_FILE" "$ALL_DOMAINS_FILE"
-  TOTAL=$(wc -l < "$ALL_DOMAINS_FILE")
+  if [[ -s "$ALL_DOMAINS_FILE" ]]; then sort -u -o "$ALL_DOMAINS_FILE" "$ALL_DOMAINS_FILE"; fi
+  if [[ -s "$IP_RUN_TMP_FILE" ]]; then sort -u -o "$IP_RUN_TMP_FILE" "$IP_RUN_TMP_FILE"; fi
 
+  TOTAL=$( ( [[ -s "$ALL_DOMAINS_FILE" ]] && wc -l < "$ALL_DOMAINS_FILE" ) || echo 0 )
   if [[ "$TOTAL" -gt 200000 ]]; then
     echo "ERROR: Total domains ($TOTAL) exceed 200000 limit." >&2
     exit 1
   fi
 
-  # Gather and deduplicate IPs (if any)
-  TOTAL_IPS=0
-  IP_FILE_DEDUP=""
-  if [[ "$INCLUDE_IPS" == "1" && -s "$IP_TMP_FILE" ]]; then
-    sort -u -o "$IP_TMP_FILE" "$IP_TMP_FILE"
-    IP_FILE_DEDUP="$IP_TMP_FILE"
-    TOTAL_IPS=$(wc -l < "$IP_FILE_DEDUP")
-  fi
+  TOTAL_IPS=$( ( [[ -s "$IP_RUN_TMP_FILE" ]] && wc -l < "$IP_RUN_TMP_FILE" ) || echo 0 )
 
-    # Implement robust Columnar Layout for the description banner
-  # UI constraints (override via env if needed)
-  EQ_LEN=${EQ_LEN:-33}      # '=' bar length (top/bottom)
-  DASH_LEN=${DASH_LEN:-44}  # '-' bar length (also content width)
+  # ======== Description banner (adaptive tab alignment to a fixed stop) ========
+  EQ_LEN=${EQ_LEN:-33}
+  DASH_LEN=${DASH_LEN:-44}
   CONTENT_WIDTH="$DASH_LEN"
 
-  LIST_SIZE=$(du -h "$ALL_DOMAINS_FILE" | cut -f1)
+  # Tab alignment controls (heuristic; tune if needed)
+  TAB_WIDTH=${TAB_WIDTH:-8}
+  TARGET_TAB_STOP=${TARGET_TAB_STOP:-4}  # values begin at tab stop #4
+
+  DOM_SIZE="0"
+  if [[ -s "$ALL_DOMAINS_FILE" ]]; then DOM_SIZE=$(du -h "$ALL_DOMAINS_FILE" | cut -f1); fi
+
   LABELS=( "Entries" "Updated" "Size" "Maintainer" "Expires" "License" )
-  VALUES=( "$TOTAL" "$UPDATED_HUMAN" "$LIST_SIZE" "$MAINTAINER" "$EXPIRES" "$LICENSE" )
+  VALUES=( "$TOTAL" "$UPDATED_HUMAN" "$DOM_SIZE" "$MAINTAINER" "$EXPIRES" "$LICENSE" )
 
-  # longest label for alignment
-  max_label_len=0
-  for lbl in "${LABELS[@]}"; do
-    (( ${#lbl} > max_label_len )) && max_label_len=${#lbl}
-  done
-  COL1_WIDTH=$(( max_label_len + 1 + 4 ))   # label + ":" + 4 spaces
-  (( COL1_WIDTH >= CONTENT_WIDTH )) && COL1_WIDTH=$(( CONTENT_WIDTH - 3 ))
-  VALUE_WIDTH_LIMIT=$(( CONTENT_WIDTH - COL1_WIDTH ))
-  (( VALUE_WIDTH_LIMIT < 3 )) && VALUE_WIDTH_LIMIT=3
-
-  repeat_chars() {
-    printf "%*s" "$2" "" | tr ' ' "$1"
-  }
-
+  repeat_chars() { printf "%*s" "$2" "" | tr ' ' "$1"; }
   BORDER_EQ=$(repeat_chars "=" "$EQ_LEN")
   BORDER_DASH=$(repeat_chars "-" "$DASH_LEN")
 
@@ -187,6 +262,8 @@ else
   title_pad=$(( (CONTENT_WIDTH - ${#TITLE}) / 2 ))
   right_pad=$(( CONTENT_WIDTH - ${#TITLE} - title_pad ))
 
+  VALUE_WIDTH_LIMIT=$(( CONTENT_WIDTH - 10 ))
+  (( VALUE_WIDTH_LIMIT < 10 )) && VALUE_WIDTH_LIMIT=10
   truncate_value() {
     local v="$1"
     if (( ${#v} > VALUE_WIDTH_LIMIT )); then
@@ -195,9 +272,17 @@ else
     printf "%s" "$v"
   }
 
-  build_line() {
+  # Print "Label:" then enough tabs so the value starts at TARGET_TAB_STOP
+  build_line_tabs() {
     local label="$1" value="$2"
-    printf "%-*s%s\n" "$COL1_WIDTH" "${label}:" "$(truncate_value "$value")"
+    local lbl="${label}:"
+    local len=${#lbl}
+    local current_stop=$(( len / TAB_WIDTH + 1 ))       # which tab stop we’re at now
+    local need=$(( TARGET_TAB_STOP - current_stop ))     # how many tabs to reach target
+    (( need < 1 )) && need=1                             # at least one tab
+    printf "%s" "$lbl"
+    printf "%${need}s" "" | tr ' ' '\t'
+    printf "%s\n" "$(truncate_value "$value")"
   }
 
   {
@@ -205,25 +290,26 @@ else
     printf "%*s%s%*s\n" "$title_pad" "" "$TITLE" "$right_pad" ""
     printf "%s\n" "$BORDER_DASH"
     for i in "${!LABELS[@]}"; do
-      build_line "${LABELS[i]}" "${VALUES[i]}"
+      build_line_tabs "${LABELS[i]}" "${VALUES[i]}"
     done
     printf "%s\n" "$BORDER_EQ"
   } > "$TMP_DESC_FILE"
+  # ======== end banner ========
 
-  # Use --rawfile to read description and build final JSON
+  # Build final JSON
   if (( TOTAL_IPS > 0 )); then
     jq -n \
       --arg name "$NAME" \
       --rawfile description "$TMP_DESC_FILE" \
-      --argjson domains "$(jq -R 'select(length>0)' < "$ALL_DOMAINS_FILE" | jq -s '.')" \
-      --argjson addrs "$(jq -R 'select(length>0)' < "$IP_FILE_DEDUP" | jq -s '.')" \
+      --argjson domains "$( ( [[ -s "$ALL_DOMAINS_FILE" ]] && jq -R 'select(length>0)' < "$ALL_DOMAINS_FILE" | jq -s '.' ) || echo '[]' )" \
+      --argjson addrs "$( ( [[ -s "$IP_RUN_TMP_FILE" ]] && jq -R 'select(length>0)' < "$IP_RUN_TMP_FILE" | jq -s '.' ) || echo '[]' )" \
       '{name:$name, description:$description, "denied-remote-domains":$domains, "denied-remote-addresses":$addrs}' \
       > "$TMP_OUTPUT"
   else
     jq -n \
       --arg name "$NAME" \
       --rawfile description "$TMP_DESC_FILE" \
-      --argjson domains "$(jq -R 'select(length>0)' < "$ALL_DOMAINS_FILE" | jq -s '.')" \
+      --argjson domains "$( ( [[ -s "$ALL_DOMAINS_FILE" ]] && jq -R 'select(length>0)' < "$ALL_DOMAINS_FILE" | jq -s '.' ) || echo '[]' )" \
       '{name:$name, description:$description, "denied-remote-domains":$domains}' \
       > "$TMP_OUTPUT"
   fi
@@ -231,7 +317,7 @@ fi
 
 # Build final metrics file
 TOTAL_DOMAINS_FINAL=$( ( [[ -s "$ALL_DOMAINS_FILE" ]] && wc -l < "$ALL_DOMAINS_FILE" ) || echo 0 )
-TOTAL_ADDRESSES_FINAL=$( ( [[ "$INCLUDE_IPS" == "1" && -s "$IP_TMP_FILE" ]] && wc -l < "$IP_TMP_FILE" ) || echo 0 )
+TOTAL_ADDRESSES_FINAL=$( ( [[ -s "$IP_RUN_TMP_FILE" ]] && wc -l < "$IP_RUN_TMP_FILE" ) || echo 0 )
 
 jq -n --arg generated_at "$TIMESTAMP_ISO" \
    --argjson sources "$METRICS_JSON" \
@@ -242,5 +328,4 @@ jq -n --arg generated_at "$TIMESTAMP_ISO" \
 
 # Atomic publish
 mv "$TMP_OUTPUT" "$OUTPUT_FILE"
-
 echo "Generated $OUTPUT_FILE and $METRICS_FILE at $TIMESTAMP_ISO"
