@@ -36,7 +36,7 @@ This repository provides a curated blocklist of Adobe-related domains, formatted
 | ID       | Repository                                                                 | Path         | Notes                                     |
 |----------|----------------------------------------------------------------------------|--------------|-------------------------------------------|
 | `a_dove` | [ignaciocastro/a-dove-is-dumb](https://github.com/ignaciocastro/a-dove-is-dumb) | `pihole.txt` | Blocks Adobe telemetry domains            |
-| `rudder` | [Ruddernation-Designs/Adobe-URL-Block-List](https://github.com/Ruddernation-Designs/Adobe-URL-Block-List) | `pihole.txt` | General Adobe URL/IP blocklist            |
+| `rudder` | [Ruddernation-Designs/Adobe-URL-Block-List](https://github.com/Ruddernation-Designs/Adobe-URL-Block-List) | `hosts` | General Adobe URL/IP blocklist            |
 
 <p align="left"><i>
 This list will expand over time as new, reputable sources are added.  
