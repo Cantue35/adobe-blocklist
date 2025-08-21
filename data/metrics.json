@@ -1,7 +1,7 @@
 {
-  "generated_at": "2025-08-21T11:04:50Z",
-  "total_domains": 2851,
-  "total_addresses": 40,
+  "generated_at": "2025-08-21T16:58:55Z",
+  "total_domains": 2916,
+  "total_addresses": 42,
   "sources": [
     {
       "id": "a_dove",
@@ -18,10 +18,10 @@
       "repo": "Ruddernation-Designs/Adobe-URL-Block-List@master",
       "path": "hosts",
       "format": "hosts",
-      "raw": 233,
-      "valid": 233,
-      "invalid": 0,
-      "reused": true
+      "raw": 958,
+      "valid": 933,
+      "invalid": 25,
+      "reused": false
     }
   ]
 }
