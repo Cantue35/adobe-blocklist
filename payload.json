@@ -3,27 +3,21 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "91fafd8f20308e290c1cdb17dc49eae671e70913",
+      "currentHead": "c52b600f697c86cb9a49e92cd95dd991e78099f7",
       "firstRun": false,
-      "newCommitCount": 2,
+      "newCommitCount": 1,
       "newCommits": [
         {
-          "date": "2025-09-08T19:24:45Z",
-          "message": "Update image links in README.md to use jsDelivr",
-          "sha": "91fafd8f20308e290c1cdb17dc49eae671e70913",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/91fafd8f20308e290c1cdb17dc49eae671e70913"
-        },
-        {
-          "date": "2025-09-08T19:05:29Z",
-          "message": "Update README with information on deleted domains",
-          "sha": "fd6836ff2a3e122e930a7ff524ecb4d05532ed5a",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/fd6836ff2a3e122e930a7ff524ecb4d05532ed5a"
+          "date": "2025-09-08T23:10:43Z",
+          "message": "Updated hosts (2025-09-08 23:10 UTC)",
+          "sha": "c52b600f697c86cb9a49e92cd95dd991e78099f7",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/c52b600f697c86cb9a49e92cd95dd991e78099f7"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "4cce9d779801a21d393d15ab12cdf2d46faaaf89",
+      "previousHead": "91fafd8f20308e290c1cdb17dc49eae671e70913",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2025-09-08T20:40:57.241Z"
+  "dispatched_at": "2025-09-09T01:28:55.656Z"
 }
