@@ -1,6 +1,6 @@
 {
-  "generated_at": "2025-10-19T03:53:00Z",
-  "total_domains": 3246,
+  "generated_at": "2025-10-20T01:28:52Z",
+  "total_domains": 3247,
   "total_addresses": 42,
   "sources": [
     {
@@ -8,8 +8,8 @@
       "repo": "ignaciocastro/a-dove-is-dumb@main",
       "path": "pihole.txt",
       "format": "hosts",
-      "raw": 3008,
-      "valid": 2996,
+      "raw": 3009,
+      "valid": 2997,
       "invalid": 12,
       "reused": false
     },
