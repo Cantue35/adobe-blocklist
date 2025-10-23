@@ -3,33 +3,21 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "2df2b9945080cf8ad5e1caae5e5208c97922a370",
+      "currentHead": "9085406331fc66c9f86d10c136209ac9343d7847",
       "firstRun": false,
-      "newCommitCount": 3,
+      "newCommitCount": 1,
       "newCommits": [
         {
-          "date": "2025-10-23T00:48:06Z",
-          "message": "One day you all will learn to stop adding unrelated domains to issues",
-          "sha": "2df2b9945080cf8ad5e1caae5e5208c97922a370",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/2df2b9945080cf8ad5e1caae5e5208c97922a370"
-        },
-        {
-          "date": "2025-10-23T00:46:22Z",
-          "message": "Updated hosts (2025-10-23 00:46 UTC)",
-          "sha": "e48918a8cc2c9c55b1627b347b2d398b989274c4",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/e48918a8cc2c9c55b1627b347b2d398b989274c4"
-        },
-        {
-          "date": "2025-10-23T00:44:02Z",
-          "message": "Updated hosts (2025-10-23 00:44 UTC)",
-          "sha": "6a27b050f19cb1b71a8aba7cefad788ff29ddfbb",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/6a27b050f19cb1b71a8aba7cefad788ff29ddfbb"
+          "date": "2025-10-23T06:47:32Z",
+          "message": "Updated hosts (2025-10-23 06:47 UTC)",
+          "sha": "9085406331fc66c9f86d10c136209ac9343d7847",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/9085406331fc66c9f86d10c136209ac9343d7847"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "0f83c56bfe75c850d67b93b418fec3c02dada1ff",
+      "previousHead": "2df2b9945080cf8ad5e1caae5e5208c97922a370",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2025-10-23T01:28:47.665Z"
+  "dispatched_at": "2025-10-23T08:40:51.024Z"
 }
