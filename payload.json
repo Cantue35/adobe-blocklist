@@ -3,21 +3,27 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "8bb5e3c4591e77d5f9da1a683d0a5100d3d9c35e",
+      "currentHead": "64ad61f2033fdbf4720df3ca736a4ecbd73f3e8f",
       "firstRun": false,
-      "newCommitCount": 1,
+      "newCommitCount": 2,
       "newCommits": [
         {
-          "date": "2025-10-27T06:56:33Z",
-          "message": "Updated hosts (2025-10-27 06:56 UTC)",
-          "sha": "8bb5e3c4591e77d5f9da1a683d0a5100d3d9c35e",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/8bb5e3c4591e77d5f9da1a683d0a5100d3d9c35e"
+          "date": "2025-10-27T12:11:51Z",
+          "message": "Added support for IPv6 Blocking",
+          "sha": "64ad61f2033fdbf4720df3ca736a4ecbd73f3e8f",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/64ad61f2033fdbf4720df3ca736a4ecbd73f3e8f"
+        },
+        {
+          "date": "2025-10-27T11:36:52Z",
+          "message": "Updated hosts (2025-10-27 11:36 UTC)",
+          "sha": "3004c5850379e8879f73c307b873f43cfbaf9f33",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/3004c5850379e8879f73c307b873f43cfbaf9f33"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "e02fe5ef79d73c03fa64b39a997f9dc0bf87ae2c",
+      "previousHead": "8bb5e3c4591e77d5f9da1a683d0a5100d3d9c35e",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2025-10-27T08:40:53.274Z"
+  "dispatched_at": "2025-10-27T13:28:49.641Z"
 }
