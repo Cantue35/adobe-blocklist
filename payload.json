@@ -3,27 +3,27 @@
   "changed_repos": [
     {
       "branch": "master",
-      "currentHead": "49edb677359028ac3f150b703c4f074905cd8c53",
+      "currentHead": "3bab4fc950686ae51ed8e5447f324d21783d8cba",
       "firstRun": false,
       "newCommitCount": 2,
       "newCommits": [
         {
-          "date": "2025-12-09T16:08:22Z",
-          "message": "Update README.md",
-          "sha": "49edb677359028ac3f150b703c4f074905cd8c53",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/49edb677359028ac3f150b703c4f074905cd8c53"
+          "date": "2025-12-10T00:04:39Z",
+          "message": "Update pihole.txt",
+          "sha": "3bab4fc950686ae51ed8e5447f324d21783d8cba",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/3bab4fc950686ae51ed8e5447f324d21783d8cba"
         },
         {
-          "date": "2025-12-09T16:01:19Z",
-          "message": "New IP",
-          "sha": "0934fdd219151bd6cc90d4f524552de55665123d",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/0934fdd219151bd6cc90d4f524552de55665123d"
+          "date": "2025-12-10T00:00:34Z",
+          "message": "Update dnsmasq",
+          "sha": "ccbf998356b3d5423c85711f2b5ca0d7941e7bf4",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/ccbf998356b3d5423c85711f2b5ca0d7941e7bf4"
         }
       ],
       "owner": "Ruddernation-Designs",
-      "previousHead": "14073a76f094ecb45cb62a68a171ce4710c98de6",
+      "previousHead": "49edb677359028ac3f150b703c4f074905cd8c53",
       "repo": "Adobe-URL-Block-List"
     }
   ],
-  "dispatched_at": "2025-12-09T18:16:55.274Z"
+  "dispatched_at": "2025-12-10T01:28:46.231Z"
 }
