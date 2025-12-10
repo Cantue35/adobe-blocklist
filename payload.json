@@ -2,28 +2,22 @@
   "changed_repo_count": 1,
   "changed_repos": [
     {
-      "branch": "master",
-      "currentHead": "3bab4fc950686ae51ed8e5447f324d21783d8cba",
+      "branch": "main",
+      "currentHead": "679fc9260084d31ddb13b1b2c52286b30eff4609",
       "firstRun": false,
-      "newCommitCount": 2,
+      "newCommitCount": 1,
       "newCommits": [
         {
-          "date": "2025-12-10T00:04:39Z",
-          "message": "Update pihole.txt",
-          "sha": "3bab4fc950686ae51ed8e5447f324d21783d8cba",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/3bab4fc950686ae51ed8e5447f324d21783d8cba"
-        },
-        {
-          "date": "2025-12-10T00:00:34Z",
-          "message": "Update dnsmasq",
-          "sha": "ccbf998356b3d5423c85711f2b5ca0d7941e7bf4",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/ccbf998356b3d5423c85711f2b5ca0d7941e7bf4"
+          "date": "2025-12-10T07:17:24Z",
+          "message": "Updated hosts (2025-12-10 07:17 UTC)",
+          "sha": "679fc9260084d31ddb13b1b2c52286b30eff4609",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/679fc9260084d31ddb13b1b2c52286b30eff4609"
         }
       ],
-      "owner": "Ruddernation-Designs",
-      "previousHead": "49edb677359028ac3f150b703c4f074905cd8c53",
-      "repo": "Adobe-URL-Block-List"
+      "owner": "ignaciocastro",
+      "previousHead": "8b3d8e17295108002e41e7aaf3f884c9e600efcb",
+      "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2025-12-10T01:28:46.231Z"
+  "dispatched_at": "2025-12-10T08:40:50.752Z"
 }
