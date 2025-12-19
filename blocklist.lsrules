@@ -1,6 +1,6 @@
 {
   "name": "Adobe Telemetry Blocklist",
-  "description": "=================================\n         Adobe Telemetry Blocklist          \n--------------------------------------------\nEntries:\t\t3522\nUpdated:\t\tDec 18, 2025, 11:05 PM (UTC)\nSize:\t\t\t92K\nMaintainer:\t\tCantue\nExpires:\t\t1 day (update frequency)\nLicense:\t\tGPL-3.0\n=================================\n",
+  "description": "=================================\n         Adobe Telemetry Blocklist          \n--------------------------------------------\nEntries:\t\t3524\nUpdated:\t\tDec 19, 2025, 08:41 AM (UTC)\nSize:\t\t\t92K\nMaintainer:\t\tCantue\nExpires:\t\t1 day (update frequency)\nLicense:\t\tGPL-3.0\n=================================\n",
   "denied-remote-domains": [
     "00nllmoilmti.p5jr3.adobestats.io",
     "017sxef5kv.adobestats.io",
@@ -432,6 +432,7 @@
     "4mnd124noo.adobestats.io",
     "4mybpirkh3.adobestats.io",
     "4nj46krj80.adobestats.io",
+    "4nj5ig1h.6u13v.adobestats.io",
     "4olf4ok65t.adobestats.io",
     "4p0kvn7921.adobestats.io",
     "4p9vvzbj8z.adobestats.io",
@@ -572,6 +573,7 @@
     "67amu7wrjd.jdr5y.adobestats.io",
     "67bec3c2c4v.vf1av.adobestats.io",
     "67ddudpqv2.adobestats.io",
+    "67g54k9wy.6u13v.adobestats.io",
     "68ptoie9zy2.bmysp.hstatic.io",
     "699yxd2304.adobestats.io",
     "69n5cgt9i.a13cy.adobestats.io",
