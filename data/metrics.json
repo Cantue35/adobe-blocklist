@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-01-06T23:05:09Z",
-  "total_domains": 3604,
+  "generated_at": "2026-01-07T08:41:10Z",
+  "total_domains": 3607,
   "total_addresses": 42,
   "sources": [
     {
@@ -8,20 +8,20 @@
       "repo": "ignaciocastro/a-dove-is-dumb@main",
       "path": "pihole.txt",
       "format": "hosts",
-      "raw": 3353,
-      "valid": 3353,
-      "invalid": 0,
-      "reused": true
+      "raw": 3364,
+      "valid": 3356,
+      "invalid": 8,
+      "reused": false
     },
     {
       "id": "ruddernation",
       "repo": "Ruddernation-Designs/Adobe-URL-Block-List@master",
       "path": "hosts",
       "format": "hosts",
-      "raw": 960,
+      "raw": 935,
       "valid": 935,
-      "invalid": 25,
-      "reused": false
+      "invalid": 0,
+      "reused": true
     }
   ]
 }
