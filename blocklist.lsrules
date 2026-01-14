@@ -1,6 +1,6 @@
 {
   "name": "Adobe Telemetry Blocklist",
-  "description": "=================================\n         Adobe Telemetry Blocklist          \n--------------------------------------------\nEntries:\t\t3659\nUpdated:\t\tJan 13, 2026, 08:41 AM (UTC)\nSize:\t\t\t96K\nMaintainer:\t\tCantue\nExpires:\t\t1 day (update frequency)\nLicense:\t\tGPL-3.0\n=================================\n",
+  "description": "=================================\n         Adobe Telemetry Blocklist          \n--------------------------------------------\nEntries:\t\t3661\nUpdated:\t\tJan 14, 2026, 08:41 AM (UTC)\nSize:\t\t\t96K\nMaintainer:\t\tCantue\nExpires:\t\t1 day (update frequency)\nLicense:\t\tGPL-3.0\n=================================\n",
   "denied-remote-domains": [
     "00dg7e9i9k.adobestats.io",
     "00nllmoilmti.p5jr3.adobestats.io",
@@ -2675,6 +2675,7 @@
     "qhwr2xpe7i.adobestats.io",
     "qhytyzi8j5.adobestats.io",
     "qi7yis2sus.xwk4b.adobestats.io",
+    "qij1w18kqx.lqn0m.adobestats.io",
     "qiqx4f6rs0.adobestats.io",
     "qivgqug798p.7cnli.adobestats.io",
     "qjzcxkisjb0.61y77.adobestats.io",
@@ -2835,6 +2836,7 @@
     "sa4visje3j.adobestats.io",
     "sap3m7umfu.adobestats.io",
     "sas2o2lo36.adobestats.io",
+    "sbe0drowh.xwk4b.adobestats.io",
     "sbzo5r4687.adobestats.io",
     "sccequy0.2coyv.adobestats.io",
     "scmnpedxm0.adobestats.io",

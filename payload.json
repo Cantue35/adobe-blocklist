@@ -3,33 +3,27 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "677322872ef640ff0837690dcb749e3e7ab9d87e",
+      "currentHead": "591346c851d1ee7200f7e5169cfdae4fd9724591",
       "firstRun": false,
-      "newCommitCount": 3,
+      "newCommitCount": 2,
       "newCommits": [
         {
-          "date": "2026-01-13T07:45:46Z",
-          "message": "Updated hosts (2026-01-13 07:45 UTC)",
-          "sha": "677322872ef640ff0837690dcb749e3e7ab9d87e",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/677322872ef640ff0837690dcb749e3e7ab9d87e"
+          "date": "2026-01-14T07:37:11Z",
+          "message": "Updated hosts (2026-01-14 07:37 UTC)",
+          "sha": "591346c851d1ee7200f7e5169cfdae4fd9724591",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/591346c851d1ee7200f7e5169cfdae4fd9724591"
         },
         {
-          "date": "2026-01-13T07:19:03Z",
-          "message": "Updated hosts (2026-01-13 07:19 UTC)",
-          "sha": "fbcf998de0ac5252a44692ffe86ccb2b9aeba7d2",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/fbcf998de0ac5252a44692ffe86ccb2b9aeba7d2"
-        },
-        {
-          "date": "2026-01-13T07:01:26Z",
-          "message": "Updated hosts (2026-01-13 07:01 UTC)",
-          "sha": "31183801165a4961930d969ff93b2f18918be92d",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/31183801165a4961930d969ff93b2f18918be92d"
+          "date": "2026-01-14T06:39:04Z",
+          "message": "Updated hosts (2026-01-14 06:39 UTC)",
+          "sha": "1bd67b105c73fab3563a2bdb926acbbaa8d153c4",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/1bd67b105c73fab3563a2bdb926acbbaa8d153c4"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "1434f3016c625d7e0f0a2a3d243dc7c206713328",
+      "previousHead": "677322872ef640ff0837690dcb749e3e7ab9d87e",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2026-01-13T08:40:59.427Z"
+  "dispatched_at": "2026-01-14T08:40:56.684Z"
 }
