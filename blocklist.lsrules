@@ -1,6 +1,6 @@
 {
   "name": "Adobe Telemetry Blocklist",
-  "description": "=================================\n         Adobe Telemetry Blocklist          \n--------------------------------------------\nEntries:\t\t3750\nUpdated:\t\tFeb 11, 2026, 08:41 PM (UTC)\nSize:\t\t\t100K\nMaintainer:\t\tCantue\nExpires:\t\t1 day (update frequency)\nLicense:\t\tGPL-3.0\n=================================\n",
+  "description": "=================================\n         Adobe Telemetry Blocklist          \n--------------------------------------------\nEntries:\t\t3752\nUpdated:\t\tFeb 12, 2026, 08:41 AM (UTC)\nSize:\t\t\t100K\nMaintainer:\t\tCantue\nExpires:\t\t1 day (update frequency)\nLicense:\t\tGPL-3.0\n=================================\n",
   "denied-remote-domains": [
     "00dg7e9i9k.adobestats.io",
     "00nllmoilmti.p5jr3.adobestats.io",
@@ -148,6 +148,7 @@
     "1hzopx6nz7.adobe.io",
     "1i09xck9hj.adobestats.io",
     "1j3muid89l.adobestats.io",
+    "1ju6ljsd.xwk4b.adobestats.io",
     "1k3metbf.61y77.adobestats.io",
     "1k4ygwdfej.adobestats.io",
     "1k7hno3xrp.adobestats.io",
@@ -2617,6 +2618,7 @@
     "pd54exxaqgc7.lqn0m.adobestats.io",
     "pd6ul826gm.adobestats.io",
     "pdb7v5ul5q.adobestats.io",
+    "pdigcboi.lqn0m.adobestats.io",
     "pdqd0eiv9k.adobestats.io",
     "pf2jezndie.adobestats.io",
     "pf3n9g4ml6i.z4e0u.hstatic.io",
