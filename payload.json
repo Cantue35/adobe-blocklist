@@ -3,21 +3,27 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "c467816c30cdbf5b5ceb25227e069c54be471a70",
+      "currentHead": "1be0dd1b8328881e69f8b480afb66435252b87a8",
       "firstRun": false,
-      "newCommitCount": 1,
+      "newCommitCount": 2,
       "newCommits": [
         {
-          "date": "2026-02-23T17:12:30Z",
-          "message": "Updated hosts (2026-02-23 17:12 UTC)",
-          "sha": "c467816c30cdbf5b5ceb25227e069c54be471a70",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/c467816c30cdbf5b5ceb25227e069c54be471a70"
+          "date": "2026-02-24T07:44:46Z",
+          "message": "Updated hosts (2026-02-24 07:44 UTC)",
+          "sha": "1be0dd1b8328881e69f8b480afb66435252b87a8",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/1be0dd1b8328881e69f8b480afb66435252b87a8"
+        },
+        {
+          "date": "2026-02-24T06:35:51Z",
+          "message": "Updated hosts (2026-02-24 06:35 UTC)",
+          "sha": "254586a233da1f056a3361cd53e49ca2f632e770",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/254586a233da1f056a3361cd53e49ca2f632e770"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "4118dd4d50e5f50a0c46f7323e38aae4ca97f29f",
+      "previousHead": "c467816c30cdbf5b5ceb25227e069c54be471a70",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2026-02-23T18:16:56.296Z"
+  "dispatched_at": "2026-02-24T08:40:56.754Z"
 }
