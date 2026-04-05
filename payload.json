@@ -2,22 +2,34 @@
   "changed_repo_count": 1,
   "changed_repos": [
     {
-      "branch": "main",
-      "currentHead": "c686502ba2c12415b6d30814292028042b0bde47",
+      "branch": "master",
+      "currentHead": "329df1d7ccef1c54ae5e37cb6d39d26a5808792f",
       "firstRun": false,
-      "newCommitCount": 1,
+      "newCommitCount": 3,
       "newCommits": [
         {
-          "date": "2026-04-01T17:58:09Z",
-          "message": "Updated hosts (2026-04-01 17:58 UTC) - Addresses #1222",
-          "sha": "c686502ba2c12415b6d30814292028042b0bde47",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/c686502ba2c12415b6d30814292028042b0bde47"
+          "date": "2026-04-05T11:46:58Z",
+          "message": "Update README.md",
+          "sha": "329df1d7ccef1c54ae5e37cb6d39d26a5808792f",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/329df1d7ccef1c54ae5e37cb6d39d26a5808792f"
+        },
+        {
+          "date": "2026-04-05T11:45:07Z",
+          "message": "Merge pull request #50 from direnquanbuKO/master",
+          "sha": "cf307711047c24b1141527f64ec98e7a333aa92d",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/cf307711047c24b1141527f64ec98e7a333aa92d"
+        },
+        {
+          "date": "2026-04-05T03:20:03Z",
+          "message": "Add adobe-related domains",
+          "sha": "dae3929d0fa1badd63d10464ad08c046cb472e3b",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/dae3929d0fa1badd63d10464ad08c046cb472e3b"
         }
       ],
-      "owner": "ignaciocastro",
-      "previousHead": "c1de159a1670e8b8636569765541aff0ac89a938",
-      "repo": "a-dove-is-dumb"
+      "owner": "Ruddernation-Designs",
+      "previousHead": "09e8ac17643bd10dd22889f4ecb4dbc341f4e749",
+      "repo": "Adobe-URL-Block-List"
     }
   ],
-  "dispatched_at": "2026-04-01T18:16:43.214Z"
+  "dispatched_at": "2026-04-05T13:28:44.563Z"
 }
