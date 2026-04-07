@@ -1,6 +1,6 @@
 {
   "name": "Adobe Telemetry Blocklist",
-  "description": "=================================\n         Adobe Telemetry Blocklist          \n--------------------------------------------\nEntries:\t\t3808\nUpdated:\t\tApr 06, 2026, 01:28 PM (UTC)\nSize:\t\t\t100K\nMaintainer:\t\tCantue\nExpires:\t\t1 day (update frequency)\nLicense:\t\tGPL-3.0\n=================================\n",
+  "description": "=================================\n         Adobe Telemetry Blocklist          \n--------------------------------------------\nEntries:\t\t3809\nUpdated:\t\tApr 07, 2026, 03:52 PM (UTC)\nSize:\t\t\t100K\nMaintainer:\t\tCantue\nExpires:\t\t1 day (update frequency)\nLicense:\t\tGPL-3.0\n=================================\n",
   "denied-remote-domains": [
     "00dg7e9i9k.adobestats.io",
     "00nllmoilmti.p5jr3.adobestats.io",
@@ -1500,6 +1500,7 @@
     "e6tsg9pl.hzm8t.adobestats.io",
     "e7aznt0ipgj.4p4bv.adobestats.io",
     "e7r6v9jdyz.adobestats.io",
+    "e88wkvhp.61ro5.adobestats.io",
     "e8esl8nsfq.adobestats.io",
     "e8v0sie5.iwl5c.adobestats.io",
     "e8yny99m61.adobestats.io",
