@@ -2,22 +2,34 @@
   "changed_repo_count": 1,
   "changed_repos": [
     {
-      "branch": "main",
-      "currentHead": "4ac40b927e2e7c6da6112843df09062b1dcf010e",
+      "branch": "master",
+      "currentHead": "c31ce5e692686f8b7180e1e43e200c051a3c9af1",
       "firstRun": false,
-      "newCommitCount": 1,
+      "newCommitCount": 3,
       "newCommits": [
         {
-          "date": "2026-05-16T01:01:40Z",
-          "message": "Updated hosts (2026-05-16 01:01 UTC)",
-          "sha": "4ac40b927e2e7c6da6112843df09062b1dcf010e",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/4ac40b927e2e7c6da6112843df09062b1dcf010e"
+          "date": "2026-05-16T08:16:15Z",
+          "message": "Fix option name syntax in dnsmasq configuration",
+          "sha": "c31ce5e692686f8b7180e1e43e200c051a3c9af1",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/c31ce5e692686f8b7180e1e43e200c051a3c9af1"
+        },
+        {
+          "date": "2026-05-16T08:15:15Z",
+          "message": "Restore domain entry in pihole.txt",
+          "sha": "7571ac4a3d66b2f3c8a25766b14ad6fd22b91630",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/7571ac4a3d66b2f3c8a25766b14ad6fd22b91630"
+        },
+        {
+          "date": "2026-05-16T08:14:38Z",
+          "message": "Update hosts",
+          "sha": "eef337d734961ff2466694ee7ce8dcf336d4076a",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/eef337d734961ff2466694ee7ce8dcf336d4076a"
         }
       ],
-      "owner": "ignaciocastro",
-      "previousHead": "14d7f56e65312b5703d331a6d5c0d862e3c5fc90",
-      "repo": "a-dove-is-dumb"
+      "owner": "Ruddernation-Designs",
+      "previousHead": "786d3407172b80ae5fba8608c9b2735f62d934a9",
+      "repo": "Adobe-URL-Block-List"
     }
   ],
-  "dispatched_at": "2026-05-16T01:28:44.383Z"
+  "dispatched_at": "2026-05-16T08:40:44.091Z"
 }
