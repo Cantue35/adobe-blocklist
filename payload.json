@@ -2,22 +2,64 @@
   "changed_repo_count": 1,
   "changed_repos": [
     {
-      "branch": "main",
-      "currentHead": "8d3a73cbd6140334d88c2bc6629c375b5f1fc044",
+      "branch": "master",
+      "currentHead": "3cba6db8b7cf53a270ce7357ed711dd0a5aa7898",
       "firstRun": false,
-      "newCommitCount": 1,
+      "newCommitCount": 8,
       "newCommits": [
         {
-          "date": "2026-06-10T18:51:54Z",
-          "message": "Updated hosts (2026-06-10 18:51 UTC, #1250)",
-          "sha": "8d3a73cbd6140334d88c2bc6629c375b5f1fc044",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/8d3a73cbd6140334d88c2bc6629c375b5f1fc044"
+          "date": "2026-06-11T12:02:43Z",
+          "message": "Merge pull request #54 from AbdelrahmanHafez/feat/macos-linux-support",
+          "sha": "3cba6db8b7cf53a270ce7357ed711dd0a5aa7898",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/3cba6db8b7cf53a270ce7357ed711dd0a5aa7898"
+        },
+        {
+          "date": "2026-06-10T14:24:42Z",
+          "message": "ci: reset exit code after intentional revert failure in Windows test",
+          "sha": "55ed65eccbe4fa5942e4d1bbe99b12892372b3a7",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/55ed65eccbe4fa5942e4d1bbe99b12892372b3a7"
+        },
+        {
+          "date": "2026-06-10T14:21:45Z",
+          "message": "docs: update Windows instructions for marker-based apply and revert",
+          "sha": "bad03d9d01d06c91267731ba79ae86e78f1cdd54",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/bad03d9d01d06c91267731ba79ae86e78f1cdd54"
+        },
+        {
+          "date": "2026-06-10T14:21:45Z",
+          "message": "ci: test the batch scripts on Windows",
+          "sha": "604ad1cdcd4bae12217f3b4915d4d24dbeb26a81",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/604ad1cdcd4bae12217f3b4915d4d24dbeb26a81"
+        },
+        {
+          "date": "2026-06-10T14:21:45Z",
+          "message": "feat: implement marker-based apply and revert in the batch scripts",
+          "sha": "37f1e38ac7b3ad78a7e9f98ad6ffdb3294c8f011",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/37f1e38ac7b3ad78a7e9f98ad6ffdb3294c8f011"
+        },
+        {
+          "date": "2026-06-10T14:11:51Z",
+          "message": "docs: document macOS and Linux support",
+          "sha": "5780f00c3d1bc9ca001676e0ec7ace97b2835c9e",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/5780f00c3d1bc9ca001676e0ec7ace97b2835c9e"
+        },
+        {
+          "date": "2026-06-10T14:11:51Z",
+          "message": "ci: lint and test apply/revert scripts on Linux and macOS",
+          "sha": "a314d8f3321971e4ee2a5dbae60186339ffe22e9",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/a314d8f3321971e4ee2a5dbae60186339ffe22e9"
+        },
+        {
+          "date": "2026-06-10T14:11:51Z",
+          "message": "feat: add apply.sh and revert.sh for macOS and Linux",
+          "sha": "5ebda99df19e7c2a3a0689b0675b2c0014258301",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/5ebda99df19e7c2a3a0689b0675b2c0014258301"
         }
       ],
-      "owner": "ignaciocastro",
-      "previousHead": "5a6eb3394536a45104ac898e33644d0cad49ba07",
-      "repo": "a-dove-is-dumb"
+      "owner": "Ruddernation-Designs",
+      "previousHead": "c31ce5e692686f8b7180e1e43e200c051a3c9af1",
+      "repo": "Adobe-URL-Block-List"
     }
   ],
-  "dispatched_at": "2026-06-10T20:40:45.257Z"
+  "dispatched_at": "2026-06-11T13:28:43.433Z"
 }
