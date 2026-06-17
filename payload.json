@@ -3,21 +3,21 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "64a3c0bbbb85e253bcc46e1d65c401c01f28da73",
+      "currentHead": "f5a9eb2f198c6416e4b1577559b2126430168275",
       "firstRun": false,
       "newCommitCount": 1,
       "newCommits": [
         {
-          "date": "2026-06-17T03:03:21Z",
-          "message": "Updated hosts (2026-06-17 03:03 UTC, #1260)",
-          "sha": "64a3c0bbbb85e253bcc46e1d65c401c01f28da73",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/64a3c0bbbb85e253bcc46e1d65c401c01f28da73"
+          "date": "2026-06-17T07:20:19Z",
+          "message": "Updated hosts (2026-06-17 07:20 UTC, #1261)",
+          "sha": "f5a9eb2f198c6416e4b1577559b2126430168275",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/f5a9eb2f198c6416e4b1577559b2126430168275"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "4384ec8d5d1a6b0f5c5eb38794a3f8463e1aee17",
+      "previousHead": "64a3c0bbbb85e253bcc46e1d65c401c01f28da73",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2026-06-17T03:52:42.074Z"
+  "dispatched_at": "2026-06-17T08:40:44.432Z"
 }
