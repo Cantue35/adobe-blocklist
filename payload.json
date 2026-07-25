@@ -1,40 +1,23 @@
 {
-  "changed_repo_count": 2,
+  "changed_repo_count": 1,
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "d6cb291fa174fbfe4e1781e0043256681b2af2d4",
+      "currentHead": "d6e485e6b4dc28347df0e770b6af6c1905171ed6",
       "firstRun": false,
       "newCommitCount": 1,
       "newCommits": [
         {
-          "date": "2026-07-19T23:42:06Z",
-          "message": "Updated hosts (2026-07-19 23:42 UTC, #1292)",
-          "sha": "d6cb291fa174fbfe4e1781e0043256681b2af2d4",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/d6cb291fa174fbfe4e1781e0043256681b2af2d4"
+          "date": "2026-07-25T21:35:09Z",
+          "message": "Updated hosts (2026-07-25 21:35 UTC, #1293)",
+          "sha": "d6e485e6b4dc28347df0e770b6af6c1905171ed6",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/d6e485e6b4dc28347df0e770b6af6c1905171ed6"
         }
       ],
       "owner": "ignaciocastro",
       "previousHead": "d6cb291fa174fbfe4e1781e0043256681b2af2d4",
       "repo": "a-dove-is-dumb"
-    },
-    {
-      "branch": "master",
-      "currentHead": "3cba6db8b7cf53a270ce7357ed711dd0a5aa7898",
-      "firstRun": false,
-      "newCommitCount": 1,
-      "newCommits": [
-        {
-          "date": "2026-06-11T12:02:43Z",
-          "message": "Merge pull request #54 from AbdelrahmanHafez/feat/macos-linux-support",
-          "sha": "3cba6db8b7cf53a270ce7357ed711dd0a5aa7898",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/3cba6db8b7cf53a270ce7357ed711dd0a5aa7898"
-        }
-      ],
-      "owner": "Ruddernation-Designs",
-      "previousHead": "3cba6db8b7cf53a270ce7357ed711dd0a5aa7898",
-      "repo": "Adobe-URL-Block-List"
     }
   ],
-  "dispatched_at": "2026-07-23T17:21:36.584Z"
+  "dispatched_at": "2026-07-25T23:04:42.330Z"
 }
