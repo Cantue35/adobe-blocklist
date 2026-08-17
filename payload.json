@@ -3,21 +3,39 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "c8f1f2929f11a091c666138191c0a1d7c683c5e7",
+      "currentHead": "4a324350f04c51605e5375a8a32344f4c7fff3f4",
       "firstRun": false,
-      "newCommitCount": 1,
+      "newCommitCount": 4,
       "newCommits": [
         {
-          "date": "2026-08-13T21:24:20Z",
-          "message": "Updated hosts (2026-08-13 21:24 UTC, #1307)",
-          "sha": "c8f1f2929f11a091c666138191c0a1d7c683c5e7",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/c8f1f2929f11a091c666138191c0a1d7c683c5e7"
+          "date": "2026-08-17T13:28:27Z",
+          "message": "Updated hosts (2026-08-17 13:28 UTC, #1311)",
+          "sha": "4a324350f04c51605e5375a8a32344f4c7fff3f4",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/4a324350f04c51605e5375a8a32344f4c7fff3f4"
+        },
+        {
+          "date": "2026-08-17T13:21:18Z",
+          "message": "Updated hosts (2026-08-17 13:21 UTC, #1310)",
+          "sha": "eb72dcb811e5df58649f70f0bdbf8523801e53de",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/eb72dcb811e5df58649f70f0bdbf8523801e53de"
+        },
+        {
+          "date": "2026-08-17T13:18:11Z",
+          "message": "Updated hosts (2026-08-17 13:18 UTC, #1309)",
+          "sha": "2bafcc08f8eead9b5023422abb49ca551888c0ca",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/2bafcc08f8eead9b5023422abb49ca551888c0ca"
+        },
+        {
+          "date": "2026-08-17T12:25:47Z",
+          "message": "Updated hosts (2026-08-17 12:25 UTC, #1308)",
+          "sha": "d116a3b132e9cda96732b6c1131c2f6717da3a7c",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/d116a3b132e9cda96732b6c1131c2f6717da3a7c"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "b4148f51d50cfc138b4cf617b27b49430b8f991d",
+      "previousHead": "c8f1f2929f11a091c666138191c0a1d7c683c5e7",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2026-08-13T23:04:43.675Z"
+  "dispatched_at": "2026-08-17T13:28:42.622Z"
 }
