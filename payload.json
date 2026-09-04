@@ -3,21 +3,27 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "f851b5bd11c798923e4472dbbf985bfe9e3a6adf",
+      "currentHead": "eafd8379ee2506532e0ab7e75ba1cabfa365d378",
       "firstRun": false,
-      "newCommitCount": 1,
+      "newCommitCount": 2,
       "newCommits": [
         {
-          "date": "2026-09-04T18:05:13Z",
-          "message": "Update image format in README header",
-          "sha": "f851b5bd11c798923e4472dbbf985bfe9e3a6adf",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/f851b5bd11c798923e4472dbbf985bfe9e3a6adf"
+          "date": "2026-09-04T22:38:01Z",
+          "message": "Merge branch main of https://github.com/ignaciocastro/a-dove-is-dumb",
+          "sha": "eafd8379ee2506532e0ab7e75ba1cabfa365d378",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/eafd8379ee2506532e0ab7e75ba1cabfa365d378"
+        },
+        {
+          "date": "2026-09-04T22:37:48Z",
+          "message": "NEW: Condensed lists on /mini/",
+          "sha": "cf32670e49bcd930bfad48804fe0acd1c1f70ab5",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/cf32670e49bcd930bfad48804fe0acd1c1f70ab5"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "eb4bae3149beda8e73ce5c527190224f71e381a8",
+      "previousHead": "f851b5bd11c798923e4472dbbf985bfe9e3a6adf",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2026-09-04T18:16:48.255Z"
+  "dispatched_at": "2026-09-04T23:04:42.448Z"
 }
