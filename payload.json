@@ -3,21 +3,21 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "12912546b55123dacf22fd8c9e191ab9ea80b992",
+      "currentHead": "30bb628a4053d373d5d9ce832dc4ffbff413f0a7",
       "firstRun": false,
       "newCommitCount": 1,
       "newCommits": [
         {
-          "date": "2026-09-25T14:25:52Z",
-          "message": "Restore hagezi.json and mini/hagezi.json from git",
-          "sha": "12912546b55123dacf22fd8c9e191ab9ea80b992",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/12912546b55123dacf22fd8c9e191ab9ea80b992"
+          "date": "2026-09-28T16:38:44Z",
+          "message": "Updated hosts (2026-09-28 16:38 UTC, #1335)",
+          "sha": "30bb628a4053d373d5d9ce832dc4ffbff413f0a7",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/30bb628a4053d373d5d9ce832dc4ffbff413f0a7"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "56e65ef475a6c9aaa2e5e68da237d24c00192bdf",
+      "previousHead": "12912546b55123dacf22fd8c9e191ab9ea80b992",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2026-09-25T15:52:48.891Z"
+  "dispatched_at": "2026-09-28T18:16:42.009Z"
 }
