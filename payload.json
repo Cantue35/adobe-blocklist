@@ -3,21 +3,33 @@
   "changed_repos": [
     {
       "branch": "main",
-      "currentHead": "8c2cea9dadf1fcb0797f8ad84f413f53b3a69255",
+      "currentHead": "4f73194b446c2aacb8fd9c366dfee5f85d79c69a",
       "firstRun": false,
-      "newCommitCount": 1,
+      "newCommitCount": 3,
       "newCommits": [
         {
-          "date": "2026-10-28T16:24:27Z",
-          "message": "Updated hosts (2026-10-28 16:24 UTC, #1366)",
-          "sha": "8c2cea9dadf1fcb0797f8ad84f413f53b3a69255",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/8c2cea9dadf1fcb0797f8ad84f413f53b3a69255"
+          "date": "2026-10-28T20:28:00Z",
+          "message": "Update README to remove DartNode verification comment",
+          "sha": "4f73194b446c2aacb8fd9c366dfee5f85d79c69a",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/4f73194b446c2aacb8fd9c366dfee5f85d79c69a"
+        },
+        {
+          "date": "2026-10-28T20:19:16Z",
+          "message": "Add verification comment",
+          "sha": "a1f7b198fdc64f4b8fc70d225b1b1988730fc567",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/a1f7b198fdc64f4b8fc70d225b1b1988730fc567"
+        },
+        {
+          "date": "2026-10-28T20:15:55Z",
+          "message": "Add DartNode sponsorship banner to README",
+          "sha": "afd3a586abc05af76a18245c525363deea49b762",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/afd3a586abc05af76a18245c525363deea49b762"
         }
       ],
       "owner": "ignaciocastro",
-      "previousHead": "8553fa1e1e63ae366882e1eef76eb85d2cfdcb77",
+      "previousHead": "8c2cea9dadf1fcb0797f8ad84f413f53b3a69255",
       "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2026-10-28T18:16:42.160Z"
+  "dispatched_at": "2026-10-28T20:40:47.422Z"
 }
