@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-28T20:40:56Z",
-  "total_domains": 7854,
+  "generated_at": "2026-11-04T01:28:50Z",
+  "total_domains": 7856,
   "total_addresses": 49,
   "stale_source_count": 0,
   "sources": [
@@ -13,20 +13,20 @@
       "valid": 7602,
       "invalid": 0,
       "duplicates_removed": 1,
-      "reused": false,
-      "status": "fetched"
+      "reused": true,
+      "status": "reused_cache"
     },
     {
       "id": "ruddernation",
       "repo": "Ruddernation-Designs/Adobe-URL-Block-List@master",
       "path": "hosts",
       "format": "hosts",
-      "raw": 948,
-      "valid": 947,
+      "raw": 950,
+      "valid": 949,
       "invalid": 0,
       "duplicates_removed": 1,
-      "reused": true,
-      "status": "reused_cache"
+      "reused": false,
+      "status": "fetched"
     }
   ]
 }

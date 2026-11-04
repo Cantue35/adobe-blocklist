@@ -2,34 +2,40 @@
   "changed_repo_count": 1,
   "changed_repos": [
     {
-      "branch": "main",
-      "currentHead": "4f73194b446c2aacb8fd9c366dfee5f85d79c69a",
+      "branch": "master",
+      "currentHead": "3512d922db8106b3e704c60fe45f09e353162c20",
       "firstRun": false,
-      "newCommitCount": 3,
+      "newCommitCount": 4,
       "newCommits": [
         {
-          "date": "2026-10-28T20:28:00Z",
-          "message": "Update README to remove DartNode verification comment",
-          "sha": "4f73194b446c2aacb8fd9c366dfee5f85d79c69a",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/4f73194b446c2aacb8fd9c366dfee5f85d79c69a"
+          "date": "2026-11-04T00:23:39Z",
+          "message": "Fix minor grammatical issues in README.md",
+          "sha": "3512d922db8106b3e704c60fe45f09e353162c20",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/3512d922db8106b3e704c60fe45f09e353162c20"
         },
         {
-          "date": "2026-10-28T20:19:16Z",
-          "message": "Add verification comment",
-          "sha": "a1f7b198fdc64f4b8fc70d225b1b1988730fc567",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/a1f7b198fdc64f4b8fc70d225b1b1988730fc567"
+          "date": "2026-11-04T00:22:11Z",
+          "message": "Add new domain entries to dnsmasq configuration",
+          "sha": "54b78b9edeac4c6f3d3f16932f8f68f46c3436c5",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/54b78b9edeac4c6f3d3f16932f8f68f46c3436c5"
         },
         {
-          "date": "2026-10-28T20:15:55Z",
-          "message": "Add DartNode sponsorship banner to README",
-          "sha": "afd3a586abc05af76a18245c525363deea49b762",
-          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/afd3a586abc05af76a18245c525363deea49b762"
+          "date": "2026-11-04T00:19:12Z",
+          "message": "Add new domain names to pihole.txt",
+          "sha": "10714f76223264e72e4320cbe0068dc80b9c1e52",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/10714f76223264e72e4320cbe0068dc80b9c1e52"
+        },
+        {
+          "date": "2026-11-04T00:17:54Z",
+          "message": "Update hosts file for version change and new entries",
+          "sha": "60857b5ce688978a5438de84fa910bbafac51b03",
+          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/60857b5ce688978a5438de84fa910bbafac51b03"
         }
       ],
-      "owner": "ignaciocastro",
-      "previousHead": "8c2cea9dadf1fcb0797f8ad84f413f53b3a69255",
-      "repo": "a-dove-is-dumb"
+      "owner": "Ruddernation-Designs",
+      "previousHead": "3cba6db8b7cf53a270ce7357ed711dd0a5aa7898",
+      "repo": "Adobe-URL-Block-List"
     }
   ],
-  "dispatched_at": "2026-10-28T20:40:47.422Z"
+  "dispatched_at": "2026-11-04T01:28:42.581Z"
 }
