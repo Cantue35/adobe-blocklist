@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-04T01:28:50Z",
-  "total_domains": 7856,
+  "generated_at": "2026-11-05T06:16:54Z",
+  "total_domains": 7860,
   "total_addresses": 49,
   "stale_source_count": 0,
   "sources": [
@@ -9,12 +9,12 @@
       "repo": "ignaciocastro/a-dove-is-dumb@main",
       "path": "pihole.txt",
       "format": "hosts",
-      "raw": 7603,
-      "valid": 7602,
+      "raw": 7607,
+      "valid": 7606,
       "invalid": 0,
       "duplicates_removed": 1,
-      "reused": true,
-      "status": "reused_cache"
+      "reused": false,
+      "status": "fetched"
     },
     {
       "id": "ruddernation",
@@ -25,8 +25,8 @@
       "valid": 949,
       "invalid": 0,
       "duplicates_removed": 1,
-      "reused": false,
-      "status": "fetched"
+      "reused": true,
+      "status": "reused_cache"
     }
   ]
 }

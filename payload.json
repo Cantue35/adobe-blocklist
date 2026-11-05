@@ -2,40 +2,46 @@
   "changed_repo_count": 1,
   "changed_repos": [
     {
-      "branch": "master",
-      "currentHead": "3512d922db8106b3e704c60fe45f09e353162c20",
+      "branch": "main",
+      "currentHead": "0837da0f9f59e6d8c670cf140d5c0d882a5d7973",
       "firstRun": false,
-      "newCommitCount": 4,
+      "newCommitCount": 5,
       "newCommits": [
         {
-          "date": "2026-11-04T00:23:39Z",
-          "message": "Fix minor grammatical issues in README.md",
-          "sha": "3512d922db8106b3e704c60fe45f09e353162c20",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/3512d922db8106b3e704c60fe45f09e353162c20"
+          "date": "2026-11-05T04:53:06Z",
+          "message": "Merge branch main of github.com:ignaciocastro/a-dove-is-dumb",
+          "sha": "0837da0f9f59e6d8c670cf140d5c0d882a5d7973",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/0837da0f9f59e6d8c670cf140d5c0d882a5d7973"
         },
         {
-          "date": "2026-11-04T00:22:11Z",
-          "message": "Add new domain entries to dnsmasq configuration",
-          "sha": "54b78b9edeac4c6f3d3f16932f8f68f46c3436c5",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/54b78b9edeac4c6f3d3f16932f8f68f46c3436c5"
+          "date": "2026-11-04T19:28:26Z",
+          "message": "Updated hosts (2026-11-04 19:28 UTC, #1371)",
+          "sha": "51a2a976c3ff53a8299197be36f384543e512d8b",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/51a2a976c3ff53a8299197be36f384543e512d8b"
         },
         {
-          "date": "2026-11-04T00:19:12Z",
-          "message": "Add new domain names to pihole.txt",
-          "sha": "10714f76223264e72e4320cbe0068dc80b9c1e52",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/10714f76223264e72e4320cbe0068dc80b9c1e52"
+          "date": "2026-11-03T14:01:16Z",
+          "message": "Updated hosts (2026-11-03 14:01 UTC, #1370)",
+          "sha": "992cc668227307350198e467a626863f259d8d2b",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/992cc668227307350198e467a626863f259d8d2b"
         },
         {
-          "date": "2026-11-04T00:17:54Z",
-          "message": "Update hosts file for version change and new entries",
-          "sha": "60857b5ce688978a5438de84fa910bbafac51b03",
-          "url": "https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/commit/60857b5ce688978a5438de84fa910bbafac51b03"
+          "date": "2026-10-31T16:41:19Z",
+          "message": "Updated hosts (2026-10-31 16:41 UTC, #1369)",
+          "sha": "1c48da865b4e8f7653d1a87edb7639fb4e7a0422",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/1c48da865b4e8f7653d1a87edb7639fb4e7a0422"
+        },
+        {
+          "date": "2026-10-31T02:16:23Z",
+          "message": "Updated hosts (2026-10-31 02:16 UTC, #1368)",
+          "sha": "38a1492d40763af72b484cc7578481263b2d3121",
+          "url": "https://github.com/ignaciocastro/a-dove-is-dumb/commit/38a1492d40763af72b484cc7578481263b2d3121"
         }
       ],
-      "owner": "Ruddernation-Designs",
-      "previousHead": "3cba6db8b7cf53a270ce7357ed711dd0a5aa7898",
-      "repo": "Adobe-URL-Block-List"
+      "owner": "ignaciocastro",
+      "previousHead": "4f73194b446c2aacb8fd9c366dfee5f85d79c69a",
+      "repo": "a-dove-is-dumb"
     }
   ],
-  "dispatched_at": "2026-11-04T01:28:42.581Z"
+  "dispatched_at": "2026-11-05T06:16:46.682Z"
 }
